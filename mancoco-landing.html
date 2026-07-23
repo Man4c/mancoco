@@ -1,0 +1,2994 @@
+<!doctype html>
+<html lang="id">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Mancoco — Minyak Kelapa Asli Mandar dari Majene</title>
+    <meta
+      name="description"
+      content="Minyak kelapa tradisional non-RBD dari Labuang, Majene. Dimasak sesuai pesanan di wajan besi, dikirim ke seluruh Indonesia. Pesan via WhatsApp."
+    />
+    <meta name="theme-color" content="#164D2B" />
+    <meta
+      property="og:title"
+      content="Mancoco — Minyak Kelapa Asli Mandar dari Majene"
+    />
+    <meta
+      property="og:description"
+      content="Susah dicari kalau tidak mudik? Mancoco dikirim dari dapur pengrajin di Labuang, Majene, langsung ke pintumu."
+    />
+    <meta property="og:type" content="website" />
+    <!--
+  MANCOCO · Landing Page (Fase 1 — Etalase Kepercayaan)
+  ------------------------------------------------------
+  · Single-file build: seluruh CSS/JS inline, tanpa dependensi eksternal.
+  · Token desain dipetakan 1:1 ke palet Tailwind (lihat :root di bawah);
+    file `tailwind.config.js` disertakan untuk port Next.js/React di Fase 2.
+  · Positioning: AKSES + KEPERCAYAAN. Tanpa klaim khasiat — murni produk kuliner tradisional.
+-->
+    <style>
+      /* ============================================================
+   1. DESIGN TOKENS  (Tailwind: primary, dark, secondary, accent,
+      badge, bg-main, bg-surface, bg-paper, text-main, text-muted)
+   ============================================================ */
+      :root {
+        --primary: #1f6b3c; /* emerald — CTA utama */
+        --dark: #164d2b; /* hijau pekat — teks di krem, footer */
+        --secondary: #2e8b57; /* hijau lembut — hover, focus ring */
+        --accent: #d4972f; /* ochre — AKSEN NON-TEKS saja */
+        --badge: #e6b45a; /* ochre lembut — badge/highlight */
+        --bg-main: #f7f3ea; /* krem — latar utama */
+        --bg-surface: #efe7d6; /* cream-2 — permukaan sekunder */
+        --bg-paper: #fffdf8; /* paper — kartu */
+        --ink: #22271f; /* teks utama */
+        --muted: #5a6152; /* teks sekunder */
+        --wa: #25d366; /* khusus ikon/label kanal WhatsApp */
+        --muted-on-dark: #bcc9b3; /* teks sekunder di atas hijau pekat */
+
+        --font-display:
+          "Rockwell", "Roboto Slab", "Iowan Old Style", Georgia,
+          "Times New Roman", serif;
+        --font-body:
+          ui-rounded, "Segoe UI", system-ui, -apple-system, "Helvetica Neue",
+          Arial, sans-serif;
+        --font-hand: "Segoe Print", "Bradley Hand", "Chalkboard SE", cursive;
+
+        --shadow-soft: 0 8px 24px rgba(34, 39, 31, 0.08);
+        --shadow-lift: 0 18px 40px rgba(22, 77, 43, 0.14);
+        --radius-card: 14px;
+        --radius-panel: 20px;
+
+        /* tekstur tenun Mandar (belah ketupat) — inline SVG, tanpa aset luar */
+        --weave-light: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='26' height='26'%3E%3Cpath d='M13 0 26 13 13 26 0 13Z' fill='none' stroke='%23164D2B' stroke-opacity='.07'/%3E%3C/svg%3E");
+        --weave-dark: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='26' height='26'%3E%3Cpath d='M13 0 26 13 13 26 0 13Z' fill='none' stroke='%23F7F3EA' stroke-opacity='.08'/%3E%3C/svg%3E");
+      }
+
+      /* ============================================================
+   2. RESET & DASAR (mobile-first)
+   ============================================================ */
+      *,
+      *::before,
+      *::after {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+      html {
+        scroll-behavior: smooth;
+        scroll-padding-top: 72px;
+      }
+      body {
+        font-family: var(--font-body);
+        background: var(--bg-main);
+        color: var(--ink);
+        line-height: 1.65;
+        -webkit-font-smoothing: antialiased;
+        /* Lantai minimal: di bawah 320px halaman berhenti menyusut & muncul scroll
+     horizontal, jadi layout tetap utuh (teks tak menumpuk). Dekorasi yang meluber
+     sudah dipotong di level section (.hero, .ticker, .cta-banner), jadi tak ada
+     scroll horizontal tak diinginkan pada lebar normal. */
+        min-width: 320px;
+      }
+      img,
+      svg {
+        display: block;
+        max-width: 100%;
+      }
+      a {
+        color: inherit;
+      }
+      h1,
+      h2,
+      h3,
+      .font-display {
+        font-family: var(--font-display);
+        font-weight: 700;
+        line-height: 1.12;
+        color: var(--dark);
+        letter-spacing: -0.01em;
+      }
+      ::selection {
+        background: var(--badge);
+        color: var(--dark);
+      }
+      :focus-visible {
+        outline: 3px solid var(--secondary);
+        outline-offset: 2px;
+        border-radius: 6px;
+      }
+
+      .wrap {
+        width: min(1140px, 100% - 2.5rem);
+        margin-inline: auto;
+      }
+      .section {
+        padding-block: clamp(4rem, 9vw, 6.5rem);
+      }
+      .kicker {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.6rem;
+        font-size: 0.78rem;
+        font-weight: 800;
+        letter-spacing: 0.2em;
+        text-transform: uppercase;
+        color: var(--primary);
+      }
+      .kicker::before {
+        content: "";
+        width: 26px;
+        height: 3px;
+        background: var(--accent);
+        border-radius: 2px;
+      }
+      .section h2 {
+        font-size: clamp(1.85rem, 4.2vw, 2.75rem);
+        margin: 0.7rem 0 0.9rem;
+      }
+      .section .lede {
+        color: var(--muted);
+        max-width: 56ch;
+        font-size: 1.05rem;
+      }
+
+      .skip-link {
+        position: absolute;
+        left: 1rem;
+        top: -4rem;
+        z-index: 200;
+        background: var(--dark);
+        color: var(--bg-main);
+        padding: 0.7rem 1.2rem;
+        border-radius: 0 0 10px 10px;
+        font-weight: 700;
+        text-decoration: none;
+        transition: top 0.2s ease;
+      }
+      .skip-link:focus {
+        top: 0;
+      }
+
+      /* ============================================================
+   3. TOMBOL & CHIP
+   ============================================================ */
+      .btn {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 0.55rem;
+        min-height: 48px;
+        padding: 0.75rem 1.6rem;
+        border-radius: 999px;
+        font-weight: 800;
+        font-size: 1rem;
+        text-decoration: none;
+        border: 2px solid transparent;
+        cursor: pointer;
+        transition:
+          transform 0.18s ease,
+          box-shadow 0.18s ease,
+          background 0.18s ease,
+          color 0.18s ease;
+      }
+      .btn:active {
+        transform: translateY(1px) scale(0.985);
+      }
+      .btn-primary {
+        background: var(--primary);
+        color: #fff;
+        box-shadow: 0 8px 20px rgba(31, 107, 60, 0.3);
+      }
+      .btn-primary:hover {
+        background: var(--secondary);
+        transform: translateY(-2px);
+        box-shadow: 0 12px 26px rgba(31, 107, 60, 0.34);
+      }
+      .btn-ghost {
+        border-color: var(--dark);
+        color: var(--dark);
+        background: transparent;
+      }
+      .btn-ghost:hover {
+        background: var(--dark);
+        color: var(--bg-main);
+        transform: translateY(-2px);
+      }
+      .btn .ic {
+        width: 20px;
+        height: 20px;
+        flex: none;
+      }
+
+      .chip {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.45rem;
+        background: var(--bg-paper);
+        border: 1px solid rgba(22, 77, 43, 0.16);
+        color: var(--dark);
+        font-weight: 700;
+        font-size: 0.85rem;
+        padding: 0.42rem 0.85rem;
+        border-radius: 999px;
+      }
+      .chip .ic {
+        width: 16px;
+        height: 16px;
+        color: var(--accent);
+      }
+
+      /* ============================================================
+   4. TICKER "SPANDUK" (voice of customer)
+   ============================================================ */
+      .ticker {
+        background: var(--dark);
+        color: var(--bg-main);
+        overflow: hidden;
+        border-bottom: 3px solid var(--badge);
+      }
+      .ticker__track {
+        display: flex;
+        width: max-content;
+        animation: tick 30s linear infinite;
+      }
+      .ticker:hover .ticker__track {
+        animation-play-state: paused;
+      }
+      .ticker__group {
+        display: flex;
+        align-items: center;
+        gap: 2.4rem;
+        padding: 0.6rem 1.2rem 0.6rem 2.4rem;
+        flex: none;
+      }
+      .ticker__group span {
+        font-family: var(--font-display);
+        font-size: 0.92rem;
+        letter-spacing: 0.04em;
+        white-space: nowrap;
+      }
+      .ticker__group .dot {
+        width: 9px;
+        height: 9px;
+        background: var(--badge);
+        transform: rotate(45deg);
+        flex: none;
+      }
+      @keyframes tick {
+        to {
+          transform: translateX(-50%);
+        }
+      }
+
+      /* ============================================================
+   5. HEADER
+   ============================================================ */
+      .site-header {
+        position: sticky;
+        top: 0;
+        z-index: 100;
+        background: rgba(247, 243, 234, 0.92);
+        backdrop-filter: blur(8px);
+        border-bottom: 1px solid rgba(22, 77, 43, 0.1);
+        transition: box-shadow 0.25s ease;
+      }
+      .site-header.scrolled {
+        box-shadow: 0 6px 20px rgba(34, 39, 31, 0.1);
+      }
+      .header__in {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 1rem;
+        min-height: 72px;
+      }
+      .brand {
+        display: flex;
+        align-items: center;
+        gap: 0.65rem;
+        text-decoration: none;
+      }
+      .brand__mark {
+        width: 56px;
+        height: 56px;
+        flex: none;
+        object-fit: contain;
+      }
+      .brand__name {
+        font-family: var(--font-display);
+        font-weight: 800;
+        font-size: 1.35rem;
+        color: var(--dark);
+        letter-spacing: 0.01em;
+      }
+      .brand__sub {
+        display: block;
+        font-family: var(--font-body);
+        font-size: 0.62rem;
+        font-weight: 700;
+        letter-spacing: 0.24em;
+        text-transform: uppercase;
+        color: var(--muted);
+      }
+      .nav {
+        display: none;
+      }
+      .nav a {
+        text-decoration: none;
+        font-weight: 700;
+        font-size: 0.95rem;
+        color: var(--ink);
+        padding: 0.4rem 0.1rem;
+        background: linear-gradient(var(--accent), var(--accent)) left bottom/0
+          2px no-repeat;
+        transition:
+          background-size 0.25s ease,
+          color 0.2s ease;
+      }
+      .nav a:hover {
+        color: var(--primary);
+        background-size: 100% 2px;
+      }
+      .header__cta {
+        display: inline-flex;
+        min-height: 44px;
+        padding: 0.55rem 1.25rem;
+        font-size: 0.92rem;
+        white-space: nowrap;
+      }
+      .menu-btn {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        width: 46px;
+        height: 46px;
+        border-radius: 12px;
+        border: 1.5px solid rgba(22, 77, 43, 0.25);
+        background: var(--bg-paper);
+        cursor: pointer;
+      }
+      .menu-btn .bars {
+        position: relative;
+        width: 20px;
+        height: 14px;
+      }
+      .menu-btn .bars::before,
+      .menu-btn .bars::after {
+        content: "";
+        position: absolute;
+        left: 0;
+        width: 100%;
+        height: 2.4px;
+        border-radius: 2px;
+        background: var(--dark);
+        transition:
+          transform 0.25s ease,
+          top 0.25s ease;
+      }
+      .menu-btn .bars::before {
+        top: 0;
+      }
+      .menu-btn .bars::after {
+        top: 11px;
+      }
+      .menu-btn[aria-expanded="true"] .bars::before {
+        top: 5.5px;
+        transform: rotate(45deg);
+      }
+      .menu-btn[aria-expanded="true"] .bars::after {
+        top: 5.5px;
+        transform: rotate(-45deg);
+      }
+      .mobile-panel {
+        border-top: 1px solid rgba(22, 77, 43, 0.1);
+        background: var(--bg-paper);
+      }
+      .mobile-panel a {
+        display: flex;
+        align-items: center;
+        min-height: 52px;
+        padding: 0.4rem 1.4rem;
+        text-decoration: none;
+        font-weight: 700;
+        color: var(--ink);
+        border-bottom: 1px solid rgba(22, 77, 43, 0.07);
+      }
+      .mobile-panel a:hover {
+        background: var(--bg-surface);
+        color: var(--primary);
+      }
+      @media (min-width: 900px) {
+        .nav {
+          display: flex;
+          gap: 1.7rem;
+        }
+        .menu-btn,
+        .mobile-panel {
+          display: none;
+        }
+      }
+      /* HP & tablet kecil: sembunyikan CTA header supaya brand + hamburger tak berdesakan
+   dan tombol tidak pecah dua baris. Ambang 600px = ruang baru cukup untuk satu baris.
+   Pengguna tetap punya CTA di dalam menu & tombol WhatsApp mengambang. */
+      @media (max-width: 600px) {
+        .header__cta {
+          display: none;
+        }
+        /* HP: kecilkan logo sedikit supaya header tak sesak (brand + hamburger). */
+        .brand__mark {
+          width: 52px;
+          height: 52px;
+        }
+      }
+
+      /* ============================================================
+   6. HERO
+   ============================================================ */
+      .hero {
+        position: relative;
+        overflow: hidden;
+        background: var(--bg-main) var(--weave-light);
+      }
+      .hero__glow {
+        /* lingkaran matahari ochre di belakang botol */
+        position: absolute;
+        right: -140px;
+        top: 40px;
+        width: 520px;
+        height: 520px;
+        border-radius: 50%;
+        background: radial-gradient(
+          circle,
+          rgba(230, 180, 90, 0.55) 0%,
+          rgba(230, 180, 90, 0.28) 46%,
+          rgba(230, 180, 90, 0) 70%
+        );
+        pointer-events: none;
+      }
+      .hero__ring {
+        position: absolute;
+        right: 6%;
+        top: 16%;
+        width: min(380px, 60vw);
+        aspect-ratio: 1;
+        border-radius: 50%;
+        border: 2px dashed rgba(212, 151, 47, 0.55);
+        pointer-events: none;
+        animation: spin 60s linear infinite;
+      }
+      .hero .wrap {
+        position: relative;
+        display: grid;
+        gap: 3.2rem;
+        padding-block: clamp(3.2rem, 7vw, 5.5rem) clamp(3.6rem, 8vw, 6rem);
+      }
+      @media (min-width: 960px) {
+        .hero .wrap {
+          grid-template-columns: 1.06fr 0.94fr;
+          align-items: center;
+        }
+      }
+
+      .eyebrow {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.55rem;
+        background: var(--bg-paper);
+        border: 1px solid rgba(22, 77, 43, 0.16);
+        border-radius: 999px;
+        padding: 0.45rem 1rem;
+        font-size: 0.85rem;
+        font-weight: 700;
+        color: var(--dark);
+        box-shadow: var(--shadow-soft);
+      }
+      .eyebrow .pulse {
+        width: 9px;
+        height: 9px;
+        border-radius: 50%;
+        background: var(--secondary);
+        animation: pulse 2.2s ease infinite;
+      }
+      @keyframes pulse {
+        0%,
+        100% {
+          box-shadow: 0 0 0 0 rgba(46, 139, 87, 0.45);
+        }
+        55% {
+          box-shadow: 0 0 0 8px rgba(46, 139, 87, 0);
+        }
+      }
+
+      .hero h1 {
+        font-size: clamp(2.45rem, 6.2vw, 4.15rem);
+        margin: 1.1rem 0 1rem;
+        max-width: 13ch;
+      }
+      .hl {
+        /* sorotan marker ochre di frasa kunci */
+        background: linear-gradient(
+          180deg,
+          transparent 60%,
+          rgba(212, 151, 47, 0.42) 60% 94%,
+          transparent 94%
+        );
+        padding: 0 0.08em;
+        box-decoration-break: clone;
+        -webkit-box-decoration-break: clone;
+      }
+      .hero .lede {
+        color: var(--muted);
+        font-size: clamp(1.02rem, 1.6vw, 1.15rem);
+        max-width: 52ch;
+      }
+      .hero__cta {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.9rem;
+        margin-top: 1.8rem;
+      }
+      .hero__scribble {
+        font-family: var(--font-hand);
+        color: var(--muted);
+        font-size: 1.05rem;
+        transform: rotate(-2deg);
+        margin-top: 1rem;
+      }
+      .trust-list {
+        list-style: none;
+        display: grid;
+        gap: 0.55rem;
+        margin-top: 1.9rem;
+      }
+      .trust-list li {
+        display: flex;
+        align-items: center;
+        gap: 0.6rem;
+        font-weight: 700;
+        font-size: 0.93rem;
+        color: var(--dark);
+      }
+      .trust-list .ic {
+        width: 19px;
+        height: 19px;
+        color: var(--primary);
+        flex: none;
+      }
+
+      /* --- panggung botol --- */
+      .hero__scene {
+        position: relative;
+        display: grid;
+        place-items: center;
+        min-height: 400px;
+      }
+      .hero__scene .bottle {
+        width: min(300px, 68vw);
+        filter: drop-shadow(0 22px 26px rgba(34, 39, 31, 0.2));
+        animation: bob 6s ease-in-out infinite;
+      }
+      .hero__deco-leaf {
+        position: absolute;
+        width: 120px;
+        left: 4%;
+        top: 6%;
+        transform: rotate(-18deg);
+        opacity: 0.9;
+        animation: bob 7s ease-in-out 0.8s infinite;
+      }
+      .hero__deco-coco {
+        position: absolute;
+        width: 110px;
+        right: 8%;
+        bottom: 4%;
+        animation: bob 5.4s ease-in-out 0.4s infinite;
+      }
+      @keyframes bob {
+        0%,
+        100% {
+          transform: translateY(0);
+        }
+        50% {
+          transform: translateY(-10px);
+        }
+      }
+      @keyframes spin {
+        to {
+          transform: rotate(360deg);
+        }
+      }
+
+      .stamp {
+        position: absolute;
+        top: -6px;
+        right: max(0px, 4%);
+        width: 118px;
+        animation: spin 26s linear infinite;
+        filter: drop-shadow(0 8px 14px rgba(22, 77, 43, 0.28));
+      }
+      .note {
+        position: absolute;
+        background: var(--bg-paper);
+        border: 1px solid rgba(22, 77, 43, 0.14);
+        border-radius: 14px 14px 14px 3px;
+        box-shadow: var(--shadow-soft);
+        padding: 0.7rem 0.95rem;
+        font-size: 0.83rem;
+        font-weight: 700;
+        color: var(--dark);
+        max-width: 200px;
+      }
+      .note small {
+        display: block;
+        font-weight: 600;
+        color: var(--muted);
+      }
+      .note::before {
+        /* selotip */
+        content: "";
+        position: absolute;
+        top: -9px;
+        left: 16px;
+        width: 44px;
+        height: 16px;
+        background: rgba(230, 180, 90, 0.75);
+        transform: rotate(-4deg);
+        border-radius: 2px;
+      }
+      .note--a {
+        left: 0;
+        bottom: 16%;
+        transform: rotate(-3deg);
+        animation: bob 6.4s ease-in-out 1.1s infinite;
+      }
+      .note--b {
+        right: 0;
+        bottom: 38%;
+        transform: rotate(2.5deg);
+        animation: bob 5.8s ease-in-out 1.6s infinite;
+      }
+      @media (max-width: 520px) {
+        .note {
+          font-size: 0.72rem;
+          padding: 0.5rem 0.7rem;
+          max-width: min(46vw, 158px);
+          border-radius: 12px 12px 12px 3px;
+        }
+        .note::before {
+          width: 34px;
+          height: 13px;
+          top: -7px;
+          left: 12px;
+        }
+        .note--a {
+          left: -2%;
+          bottom: 8%;
+        }
+        .note--b {
+          right: -2%;
+          bottom: 44%;
+        }
+      }
+
+      /* ============================================================
+   7. PROSES (parut → peras → masak)
+   ============================================================ */
+      .process {
+        background: var(--bg-surface) var(--weave-light);
+        border-block: 1px solid rgba(22, 77, 43, 0.08);
+      }
+      .process .wrap {
+        display: grid;
+        gap: 3rem;
+      }
+      @media (min-width: 980px) {
+        .process .wrap {
+          grid-template-columns: 1.08fr 0.92fr;
+          align-items: start;
+        }
+      }
+      .steps {
+        list-style: none;
+        margin-top: 2.2rem;
+        border-left: 2px dashed rgba(22, 77, 43, 0.3);
+        display: grid;
+        gap: 1.9rem;
+        padding-left: 1.6rem;
+      }
+      .step {
+        position: relative;
+      }
+      .step::before {
+        /* penanda lingkaran di garis */
+        content: "";
+        position: absolute;
+        left: calc(-1.6rem - 13px);
+        top: 6px;
+        width: 24px;
+        height: 24px;
+        border-radius: 50%;
+        background: var(--bg-surface);
+        border: 2px solid var(--primary);
+      }
+      .step__head {
+        display: flex;
+        align-items: baseline;
+        gap: 0.8rem;
+        flex-wrap: wrap;
+      }
+      .step__num {
+        font-family: var(--font-display);
+        font-size: 2.1rem;
+        font-weight: 800;
+        color: var(--accent);
+        line-height: 1;
+      } /* dekoratif, aria-hidden */
+      .step h3 {
+        font-size: 1.3rem;
+      }
+      .step p {
+        color: var(--muted);
+        margin-top: 0.35rem;
+        max-width: 44ch;
+      }
+      .step .ic {
+        width: 34px;
+        height: 34px;
+        color: var(--primary);
+        margin-top: 0.6rem;
+      }
+
+      .artisan {
+        position: relative;
+        background: var(--bg-paper);
+        border: 1px solid rgba(22, 77, 43, 0.12);
+        border-radius: var(--radius-panel);
+        box-shadow: var(--shadow-soft);
+        overflow: visible;
+      }
+      .artisan__frame {
+        border-radius: var(--radius-panel) var(--radius-panel) 0 0;
+        background: var(--bg-surface) var(--weave-light);
+        border-bottom: 1px solid rgba(22, 77, 43, 0.1);
+        min-height: 190px;
+        display: grid;
+        place-items: center;
+        gap: 0.4rem;
+        padding: 1.6rem;
+        text-align: center;
+        overflow: hidden;
+      }
+      .artisan__frame:has(.artisan__photo) {
+        padding: 0;
+        min-height: 0;
+      }
+      .artisan__photo {
+        display: block;
+        width: 100%;
+        height: 260px;
+        object-fit: cover;
+      }
+      .artisan__caption {
+        padding: 0.7rem 1.2rem 0.9rem;
+        text-align: center;
+        border-bottom: 1px solid rgba(22, 77, 43, 0.1);
+      }
+      .artisan__caption p {
+        font-size: 0.85rem;
+        font-weight: 700;
+        color: var(--dark);
+      }
+      .artisan__caption small {
+        font-size: 0.78rem;
+        color: var(--muted);
+      }
+      .artisan__frame .ic {
+        width: 56px;
+        height: 56px;
+        color: var(--primary);
+        margin-inline: auto;
+      }
+      .artisan__frame p {
+        font-size: 0.85rem;
+        font-weight: 700;
+        color: var(--dark);
+      }
+      .artisan__frame small {
+        font-size: 0.78rem;
+        color: var(--muted);
+        max-width: 32ch;
+      }
+      .artisan__body {
+        padding: 1.7rem 1.7rem 1.9rem;
+      }
+      .artisan__body h3 {
+        font-size: 1.35rem;
+        margin-bottom: 0.6rem;
+      }
+      .artisan__body p {
+        color: var(--muted);
+        font-size: 0.98rem;
+      }
+      .artisan__badge {
+        position: absolute;
+        top: -16px;
+        right: 18px;
+        transform: rotate(4deg);
+        background: var(--badge);
+        color: var(--dark);
+        font-weight: 800;
+        font-size: 0.78rem;
+        letter-spacing: 0.12em;
+        padding: 0.5rem 0.95rem;
+        border-radius: 8px;
+        border: 2px dashed var(--dark);
+        box-shadow: var(--shadow-soft);
+      }
+      .stats {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.6rem;
+        margin-top: 1.3rem;
+      }
+
+      /* ============================================================
+   8. KATALOG PRODUK
+   ============================================================ */
+      .catalog__head {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: end;
+        justify-content: space-between;
+        gap: 1rem;
+        margin-bottom: 2.4rem;
+      }
+      .cards {
+        display: grid;
+        gap: 1.6rem;
+      }
+      @media (min-width: 720px) {
+        .cards {
+          grid-template-columns: repeat(3, 1fr);
+          align-items: stretch;
+        }
+      }
+      .card {
+        position: relative;
+        display: flex;
+        flex-direction: column;
+        background: var(--bg-paper);
+        border: 1px solid rgba(22, 77, 43, 0.12);
+        border-radius: var(--radius-card);
+        overflow: hidden;
+        box-shadow: var(--shadow-soft);
+        transition:
+          transform 0.25s ease,
+          box-shadow 0.25s ease;
+      }
+      .card:hover {
+        transform: translateY(-7px);
+        box-shadow: var(--shadow-lift);
+      }
+      .card__ph {
+        background: var(--bg-surface) var(--weave-light);
+        border-bottom: 1px solid rgba(22, 77, 43, 0.1);
+        display: grid;
+        place-items: center;
+        padding: 1.6rem 1rem;
+        min-height: 190px;
+      }
+      .card__ph svg {
+        width: auto;
+        height: 150px;
+        transition: transform 0.3s ease;
+      }
+      .card:hover .card__ph svg {
+        transform: rotate(-2.5deg) scale(1.04);
+      }
+      .card__body {
+        display: flex;
+        flex-direction: column;
+        gap: 0.55rem;
+        padding: 1.4rem 1.4rem 1.5rem;
+        flex: 1;
+      }
+      .card__meta {
+        font-size: 0.8rem;
+        font-weight: 700;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        color: var(--muted);
+      }
+      .card h3 {
+        font-size: 1.18rem;
+        line-height: 1.3;
+      }
+      .card__desc {
+        font-size: 0.92rem;
+        color: var(--muted);
+      }
+      .card__price {
+        font-family: var(--font-display);
+        font-size: 1.65rem;
+        font-weight: 800;
+        color: var(--dark);
+        margin-top: 0.2rem;
+      }
+      .card__price small {
+        font-family: var(--font-body);
+        font-size: 0.78rem;
+        font-weight: 600;
+        color: var(--muted);
+      }
+      .card__save {
+        font-size: 0.82rem;
+        font-weight: 700;
+        color: var(--primary);
+      }
+      .card .btn {
+        margin-top: auto;
+        align-self: stretch;
+      }
+      .card--featured {
+        border: 2px solid var(--badge);
+        box-shadow: var(--shadow-lift);
+      }
+      @media (min-width: 720px) {
+        .card--featured {
+          transform: scale(1.035);
+        }
+        .card--featured:hover {
+          transform: scale(1.035) translateY(-7px);
+        }
+      }
+      .ribbon {
+        position: absolute;
+        top: 14px;
+        left: -8px;
+        z-index: 2;
+        background: var(--badge);
+        color: var(--dark);
+        font-weight: 800;
+        font-size: 0.8rem;
+        letter-spacing: 0.06em;
+        padding: 0.42rem 1rem 0.42rem 1.2rem;
+        border-radius: 0 999px 999px 0;
+        box-shadow: 0 6px 14px rgba(34, 39, 31, 0.16);
+      }
+      .ribbon::after {
+        content: "";
+        position: absolute;
+        left: 0;
+        bottom: -8px;
+        border: 4px solid transparent;
+        border-top-color: rgba(22, 77, 43, 0.55);
+        border-right-color: rgba(22, 77, 43, 0.55);
+      }
+      .catalog__note {
+        margin-top: 2rem;
+        display: flex;
+        gap: 0.7rem;
+        align-items: flex-start;
+        background: var(--bg-surface);
+        border: 1px dashed rgba(22, 77, 43, 0.3);
+        border-radius: 12px;
+        padding: 1rem 1.2rem;
+        font-size: 0.92rem;
+        color: var(--muted);
+      }
+      .catalog__note .ic {
+        width: 20px;
+        height: 20px;
+        color: var(--accent);
+        flex: none;
+        margin-top: 0.15rem;
+      }
+      .catalog__note strong {
+        color: var(--dark);
+      }
+
+      /* ============================================================
+   9. BUAT SIAPA (social proof)
+   ============================================================ */
+      .aud {
+        display: grid;
+        gap: 1.6rem;
+        margin-top: 2.4rem;
+      }
+      @media (min-width: 900px) {
+        .aud {
+          grid-template-columns: 1.12fr 0.88fr;
+        }
+      }
+      .panel {
+        position: relative;
+        border-radius: var(--radius-panel);
+        padding: clamp(1.8rem, 3.5vw, 2.6rem);
+        overflow: hidden;
+      }
+      .panel .ic {
+        width: 46px;
+        height: 46px;
+        margin-bottom: 1.1rem;
+      }
+      .panel h3 {
+        font-size: clamp(1.45rem, 2.6vw, 1.85rem);
+        margin-bottom: 0.7rem;
+      }
+      .panel p {
+        max-width: 46ch;
+      }
+      .panel blockquote {
+        margin-top: 1.5rem;
+        padding: 0.9rem 1.2rem;
+        border-left: 4px solid var(--badge);
+        font-family: var(--font-display);
+        font-size: 1.08rem;
+        font-style: italic;
+        border-radius: 0 10px 10px 0;
+      }
+      .panel cite {
+        display: block;
+        margin-top: 0.55rem;
+        font-family: var(--font-body);
+        font-style: normal;
+        font-size: 0.82rem;
+        font-weight: 700;
+        letter-spacing: 0.06em;
+        text-transform: uppercase;
+        opacity: 0.85;
+      }
+      .panel--cook {
+        background: var(--dark) var(--weave-dark);
+        color: var(--bg-main);
+      }
+      .panel--cook h3 {
+        color: var(--bg-main);
+      }
+      .panel--cook p {
+        color: var(--muted-on-dark);
+      }
+      .panel--cook .ic {
+        color: var(--badge);
+      }
+      .panel--cook blockquote {
+        background: rgba(247, 243, 234, 0.07);
+        color: var(--bg-main);
+      }
+      .panel--gift {
+        background: var(--bg-paper) var(--weave-light);
+        border: 1px solid rgba(22, 77, 43, 0.12);
+        box-shadow: var(--shadow-soft);
+      }
+      .panel--gift .ic {
+        color: var(--accent);
+      }
+      .panel--gift blockquote {
+        background: rgba(230, 180, 90, 0.16);
+        color: var(--dark);
+      }
+      .panel__tag {
+        position: absolute;
+        top: 1.4rem;
+        right: 1.4rem;
+        transform: rotate(3deg);
+        font-family: var(--font-hand);
+        font-size: 1rem;
+        opacity: 0.9;
+      }
+      .panel--cook .panel__tag {
+        color: var(--badge);
+      }
+      .panel--gift .panel__tag {
+        color: var(--muted);
+      }
+
+      /* ============================================================
+   10. CARA PESAN + CTA PENUTUP
+   ============================================================ */
+      .howto {
+        background: var(--bg-surface) var(--weave-light);
+        border-block: 1px solid rgba(22, 77, 43, 0.08);
+      }
+      .howto__steps {
+        display: grid;
+        gap: 1.4rem;
+        margin-top: 2.4rem;
+        counter-reset: howto;
+      }
+      @media (min-width: 860px) {
+        .howto__steps {
+          grid-template-columns: repeat(4, 1fr);
+        }
+      }
+      .hstep {
+        position: relative;
+        background: var(--bg-paper);
+        border: 1px solid rgba(22, 77, 43, 0.12);
+        border-radius: var(--radius-card);
+        padding: 1.5rem 1.3rem;
+      }
+      .hstep::before {
+        counter-increment: howto;
+        content: counter(howto, decimal-leading-zero);
+        font-family: var(--font-display);
+        font-weight: 800;
+        font-size: 1.9rem;
+        color: var(--accent);
+        line-height: 1;
+        display: block;
+        margin-bottom: 0.6rem;
+      }
+      .hstep h3 {
+        font-size: 1.02rem;
+        margin-bottom: 0.3rem;
+      }
+      .hstep p {
+        font-size: 0.88rem;
+        color: var(--muted);
+      }
+      @media (min-width: 860px) {
+        .hstep:not(:last-child)::after {
+          content: "";
+          position: absolute;
+          top: 50%;
+          right: -1.05rem;
+          width: 1.5rem;
+          border-top: 2px dashed rgba(22, 77, 43, 0.35);
+        }
+      }
+      .cta-banner {
+        margin-top: 3rem;
+        background: var(--primary);
+        border-radius: var(--radius-panel);
+        padding: clamp(2rem, 4.5vw, 3rem);
+        color: #fff;
+        position: relative;
+        overflow: hidden;
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        gap: 1.6rem;
+        justify-content: space-between;
+      }
+      .cta-banner::before {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background: var(--weave-dark);
+        pointer-events: none;
+      }
+      .cta-banner h2 {
+        color: #fff;
+        font-size: clamp(1.5rem, 3.2vw, 2.15rem);
+        margin-bottom: 0.35rem;
+        position: relative;
+      }
+      .cta-banner p {
+        color: #dce7dd;
+        position: relative;
+        max-width: 44ch;
+      }
+      .cta-banner .btn {
+        background: #fff;
+        color: var(--primary);
+        position: relative;
+      }
+      .cta-banner .btn:hover {
+        background: var(--badge);
+        color: var(--dark);
+        transform: translateY(-2px);
+      }
+      .cta-banner__hours {
+        position: relative;
+        width: 100%;
+        font-size: 0.85rem;
+        font-weight: 700;
+        color: #dce7dd;
+      }
+      @media (min-width: 860px) {
+        .cta-banner__hours {
+          width: auto;
+        }
+      }
+
+      /* ============================================================
+   11. FOOTER
+   ============================================================ */
+      .footer {
+        background: var(--dark) var(--weave-dark);
+        color: var(--muted-on-dark);
+      }
+      /* Logo footer: PNG hijau di atas latar hijau gelap tak terlihat, jadi diberi
+   alas bulat krem (seperti stiker) supaya kontras. Padding kecil biar logo tak
+   mepet tepi lingkaran. Hanya berlaku di footer — header tak terpengaruh. */
+      .footer .brand__mark {
+        width: 44px;
+        height: 44px;
+        background: var(--bg-main);
+        border-radius: 50%;
+        padding: 1px;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.18);
+      }
+      .footer__grid {
+        display: grid;
+        gap: 2.4rem;
+        padding-block: 3.6rem 2.6rem;
+      }
+      @media (min-width: 820px) {
+        .footer__grid {
+          grid-template-columns: 1.3fr 1fr 1fr;
+        }
+      }
+      .footer h3 {
+        color: var(--bg-main);
+        font-size: 1rem;
+        letter-spacing: 0.14em;
+        text-transform: uppercase;
+        margin-bottom: 1rem;
+      }
+      .footer .brand__name {
+        color: var(--bg-main);
+      }
+      .footer .brand__sub {
+        color: var(--muted-on-dark);
+      }
+      .footer p {
+        font-size: 0.93rem;
+        max-width: 36ch;
+      }
+      .footer address {
+        font-style: normal;
+        font-size: 0.93rem;
+        line-height: 1.8;
+      }
+      .footer a {
+        color: var(--bg-main);
+        text-decoration-color: rgba(247, 243, 234, 0.4);
+        text-underline-offset: 3px;
+        transition: color 0.2s ease;
+      }
+      .footer a:hover {
+        color: var(--badge);
+      }
+      .footer ul {
+        list-style: none;
+        display: grid;
+        gap: 0.55rem;
+        font-size: 0.93rem;
+      }
+      .footer__wa {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+        margin-top: 0.8rem;
+        font-weight: 800;
+        color: var(--bg-main);
+      }
+      .footer__wa .ic {
+        width: 18px;
+        height: 18px;
+        color: var(--wa);
+      }
+      .footer__bar {
+        border-top: 1px solid rgba(247, 243, 234, 0.14);
+        padding-block: 1.3rem;
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.8rem;
+        justify-content: space-between;
+        font-size: 0.83rem;
+      }
+
+      /* ============================================================
+   12. FLOATING WHATSAPP
+   ============================================================ */
+      .wa-float {
+        position: fixed;
+        right: 1.2rem;
+        bottom: 1.2rem;
+        z-index: 150;
+        width: 58px;
+        height: 58px;
+        border-radius: 50%;
+        background: var(--wa);
+        border: 3px solid var(--dark);
+        display: grid;
+        place-items: center;
+        box-shadow: 0 12px 26px rgba(34, 39, 31, 0.28);
+        transition: transform 0.2s ease;
+      }
+      .wa-float:hover {
+        transform: scale(1.08);
+      }
+      .wa-float::after {
+        content: "";
+        position: absolute;
+        inset: -3px;
+        border-radius: 50%;
+        border: 3px solid var(--wa);
+        animation: ring 2.4s ease-out infinite;
+      }
+      @keyframes ring {
+        0% {
+          transform: scale(1);
+          opacity: 0.7;
+        }
+        100% {
+          transform: scale(1.55);
+          opacity: 0;
+        }
+      }
+      .wa-float .ic {
+        width: 28px;
+        height: 28px;
+        color: #fff;
+      }
+
+      /* ============================================================
+   13. REVEAL & REDUCED MOTION
+   ============================================================ */
+      .reveal {
+        opacity: 0;
+        transform: translateY(24px);
+        transition:
+          opacity 0.7s ease,
+          transform 0.7s cubic-bezier(0.22, 1, 0.36, 1);
+      }
+      .reveal.is-in {
+        opacity: 1;
+        transform: none;
+      }
+      .reveal.d1 {
+        transition-delay: 0.08s;
+      }
+      .reveal.d2 {
+        transition-delay: 0.16s;
+      }
+      .reveal.d3 {
+        transition-delay: 0.24s;
+      }
+      @media (prefers-reduced-motion: reduce) {
+        html {
+          scroll-behavior: auto;
+        }
+        /* Atas permintaan pemilik: SEMUA animasi (ticker, mengambang, berputar, denyut) tetap
+     berjalan meski setting "kurangi animasi" aktif. Pembekuan animasi sengaja dilepas.
+     Hanya scroll-behavior yang tetap instan supaya lompatan anchor tak bikin pusing. */
+      }
+    </style>
+  </head>
+  <body>
+    <a class="skip-link" href="#utama">Langsung ke konten utama</a>
+
+    <!-- ══════════ TICKER "SPANDUK" — voice of customer ══════════ -->
+    <div class="ticker" aria-hidden="true">
+      <div class="ticker__track">
+        <div class="ticker__group">
+          <span>“Beda rasanya, lebih gurih…”</span><i class="dot"></i>
+          <span>Susah dicari kalau di kota</span><i class="dot"></i>
+          <span>“Ini baru asli Mandar.”</span><i class="dot"></i>
+          <span>Kangen masakan nenek</span><i class="dot"></i>
+          <span>“Wangi kelapanya kuat sekali.”</span><i class="dot"></i>
+          <span>Kampung banget rasanya</span><i class="dot"></i>
+        </div>
+        <div class="ticker__group">
+          <span>“Beda rasanya, lebih gurih…”</span><i class="dot"></i>
+          <span>Susah dicari kalau di kota</span><i class="dot"></i>
+          <span>“Ini baru asli Mandar.”</span><i class="dot"></i>
+          <span>Kangen masakan nenek</span><i class="dot"></i>
+          <span>“Wangi kelapanya kuat sekali.”</span><i class="dot"></i>
+          <span>Kampung banget rasanya</span><i class="dot"></i>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══════════ HEADER ══════════ -->
+    <header class="site-header" id="header">
+      <div class="wrap header__in">
+        <a class="brand" href="#beranda" aria-label="Mancoco — kembali ke atas">
+          <img
+            class="brand__mark"
+            src="logo/logo-transparant.png"
+            alt=""
+            width="42"
+            height="42"
+            decoding="async"
+          />
+          <span>
+            <span class="brand__name">Mancoco</span>
+            <span class="brand__sub">Mandar Coconut · Majene</span>
+          </span>
+        </a>
+        <nav class="nav" aria-label="Navigasi utama">
+          <a href="#proses">Proses</a>
+          <a href="#katalog">Katalog</a>
+          <a href="#untuk">Buat Siapa</a>
+          <a href="#cara-pesan">Cara Pesan</a>
+          <a href="#kontak">Kontak</a>
+        </nav>
+        <a
+          class="btn btn-primary header__cta"
+          href="https://wa.me/6285696343551?text=Halo%20Mancoco%2C%20saya%20mau%20tanya-tanya%20dulu.%20%5Bvia%20web%5D"
+          target="_blank"
+          rel="noopener"
+          >Pesan Sekarang</a
+        >
+        <button
+          class="menu-btn"
+          aria-expanded="false"
+          aria-controls="mobilePanel"
+          aria-label="Buka menu navigasi"
+        >
+          <span class="bars" aria-hidden="true"></span>
+        </button>
+      </div>
+      <nav
+        class="mobile-panel"
+        id="mobilePanel"
+        aria-label="Navigasi seluler"
+        hidden
+      >
+        <a href="#proses">Proses</a>
+        <a href="#katalog">Katalog</a>
+        <a href="#untuk">Buat Siapa</a>
+        <a href="#cara-pesan">Cara Pesan</a>
+        <a href="#kontak">Kontak</a>
+      </nav>
+    </header>
+
+    <main id="utama">
+      <!-- ══════════ HERO ══════════ -->
+      <section class="hero" id="beranda" aria-labelledby="heroTitle">
+        <div class="hero__glow" aria-hidden="true"></div>
+        <div class="hero__ring" aria-hidden="true"></div>
+        <div class="wrap">
+          <div>
+            <p class="eyebrow reveal">
+              <span class="pulse" aria-hidden="true"></span> Dari Labuang,
+              Majene — Sulawesi Barat
+            </p>
+            <h1 id="heroTitle" class="reveal d1">
+              Minyak Kelapa <span class="hl">Asli Mandar</span> — Beda Rasanya,
+              Terasa Kampungnya.
+            </h1>
+            <p class="lede reveal d2">
+              Selama ini <strong>susah dicari</strong> kalau lagi tidak mudik.
+              Sekarang tidak perlu pulang kampung atau titip-titip dulu —
+              Mancoco dimasak pelan-pelan di wajan besi, lalu dikirim dari
+              Majene langsung ke pintumu.
+            </p>
+            <div class="hero__cta reveal d2">
+              <a class="btn btn-primary" href="#katalog"
+                >Lihat Katalog
+                <svg
+                  class="ic"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2.4"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  aria-hidden="true"
+                >
+                  <path d="M5 12h14M13 6l6 6-6 6" />
+                </svg>
+              </a>
+              <a
+                class="btn btn-ghost"
+                href="https://wa.me/6285696343551?text=Halo%20Mancoco%2C%20saya%20mau%20tanya-tanya%20dulu.%20%5Bvia%20web%5D"
+                target="_blank"
+                rel="noopener"
+              >
+                <svg
+                  class="ic"
+                  viewBox="0 0 24 24"
+                  fill="currentColor"
+                  aria-hidden="true"
+                >
+                  <path
+                    d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.45 1.32 4.95L2 22l5.25-1.38a9.9 9.9 0 0 0 4.79 1.22h.01c5.46 0 9.91-4.45 9.91-9.91 0-2.65-1.03-5.14-2.9-7.01A9.82 9.82 0 0 0 12.04 2Zm0 18.14h-.01a8.24 8.24 0 0 1-4.19-1.15l-.3-.18-3.12.82.83-3.04-.2-.31a8.2 8.2 0 0 1-1.26-4.38c0-4.54 3.7-8.24 8.25-8.24 2.2 0 4.27.86 5.83 2.42a8.19 8.19 0 0 1 2.41 5.83c0 4.54-3.7 8.24-8.24 8.24Zm4.52-6.17c-.25-.12-1.47-.72-1.69-.81-.23-.08-.39-.12-.56.13-.16.25-.64.81-.79.97-.14.17-.29.19-.54.06-.25-.12-1.05-.39-1.99-1.23-.74-.66-1.23-1.47-1.38-1.72-.14-.25-.02-.38.11-.51.11-.11.25-.29.37-.43.13-.14.17-.25.25-.41.08-.17.04-.31-.02-.43-.06-.12-.56-1.34-.76-1.84-.2-.48-.4-.42-.56-.43-.14-.01-.31-.01-.48-.01a.92.92 0 0 0-.66.31c-.23.25-.87.85-.87 2.07 0 1.22.89 2.4 1.01 2.56.12.17 1.75 2.67 4.23 3.74.59.26 1.05.41 1.41.52.59.19 1.13.16 1.56.1.48-.07 1.47-.6 1.68-1.18.21-.58.21-1.07.14-1.18-.06-.11-.22-.17-.47-.29Z"
+                  />
+                </svg>
+                Pesan via WhatsApp
+              </a>
+            </div>
+            <p class="hero__scribble reveal d3" aria-hidden="true">
+              *rasanya nggak bisa bohong ✍
+            </p>
+            <ul class="trust-list reveal d3">
+              <li>
+                <svg
+                  class="ic"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2.6"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  aria-hidden="true"
+                >
+                  <path d="M20 6 9 17l-5-5" />
+                </svg>
+                Non-RBD — murni hasil masak tradisional
+              </li>
+              <li>
+                <svg
+                  class="ic"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2.6"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  aria-hidden="true"
+                >
+                  <path d="M20 6 9 17l-5-5" />
+                </svg>
+                Made to order — selalu batch baru
+              </li>
+              <li>
+                <svg
+                  class="ic"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2.6"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  aria-hidden="true"
+                >
+                  <path d="M20 6 9 17l-5-5" />
+                </svg>
+                Kirim ke seluruh Indonesia
+              </li>
+            </ul>
+          </div>
+
+          <div class="hero__scene reveal d1">
+            <!-- daun kelapa (Refined Color & Curve) -->
+            <svg
+              class="hero__deco-leaf"
+              viewBox="0 0 120 120"
+              xmlns="http://www.w3.org/2000/svg"
+              aria-hidden="true"
+            >
+              <!-- Fill diubah menjadi hijau yang lebih natural dan senada dengan brand -->
+              <path
+                d="M12 108C32 55 65 25 110 10C82 50 55 85 12 108Z"
+                fill="#3A7D4E"
+              />
+              <!-- Tulang daun disesuaikan mengikuti lekukan baru -->
+              <path
+                d="M15 105C42 70 70 45 106 17"
+                stroke="#164D2B"
+                stroke-width="2.5"
+                fill="none"
+                stroke-linecap="round"
+              />
+            </svg>
+
+            <!-- stempel berputar (Lingkaran Tengah Diperbesar) -->
+            <svg
+              class="stamp"
+              viewBox="0 0 120 120"
+              xmlns="http://www.w3.org/2000/svg"
+              aria-hidden="true"
+              width="200"
+              height="200"
+            >
+              <defs>
+                <style>
+                  /* Animasi Putar Klasik */
+                  .stamp {
+                    animation: spin-stamp 15s linear infinite;
+                    transform-origin: 50% 50%;
+                    filter: drop-shadow(0px 4px 6px rgba(0, 0, 0, 0.15));
+                  }
+
+                  @keyframes spin-stamp {
+                    0% {
+                      transform: rotate(0deg);
+                    }
+                    100% {
+                      transform: rotate(360deg);
+                    }
+                  }
+
+                  /* Tipografi Stempel */
+                  .text-arc {
+                    font-family: "Georgia", "Times New Roman", serif;
+                    font-size: 8px; /* Disesuaikan agar pas dengan radius baru */
+                    font-weight: 700;
+                    letter-spacing: 1.5px;
+                    fill: #f4efe6;
+                  }
+
+                  .text-main {
+                    font-family: "Georgia", "Times New Roman", serif;
+                    font-size: 11px;
+                    font-weight: 800;
+                    letter-spacing: 1px;
+                    fill: #1a4f2c;
+                  }
+
+                  .text-sub {
+                    font-family: "Georgia", "Times New Roman", serif;
+                    font-size: 6px;
+                    font-weight: 700;
+                    letter-spacing: 2px;
+                    fill: #1a4f2c;
+                  }
+
+                  .ornament {
+                    font-size: 6px;
+                    fill: #1a4f2c;
+                  }
+                </style>
+
+                <!-- Path melingkar dilebarkan (Radius 48) agar bulatan tengah bisa lebih besar -->
+                <path id="stampTop" d="M 12 60 A 48 48 0 0 1 108 60" />
+                <path id="stampBot" d="M 12 60 A 48 48 0 0 0 108 60" />
+              </defs>
+
+              <!-- ================= LINGKARAN LUAR (HIJAU) ================= -->
+              <circle cx="60" cy="60" r="58" fill="#1A4F2C" />
+              <circle
+                cx="60"
+                cy="60"
+                r="55.5"
+                fill="none"
+                stroke="#F4EFE6"
+                stroke-width="1"
+              />
+              <circle
+                cx="60"
+                cy="60"
+                r="54"
+                fill="none"
+                stroke="#F4EFE6"
+                stroke-width="0.5"
+              />
+
+              <!-- ================= TEKS MELINGKAR ================= -->
+              <text class="text-arc">
+                <textPath
+                  href="#stampTop"
+                  startOffset="50%"
+                  text-anchor="middle"
+                  dominant-baseline="central"
+                >
+                  MINYAK KELAPA ASLI
+                </textPath>
+              </text>
+              <text class="text-arc">
+                <textPath
+                  href="#stampBot"
+                  startOffset="50%"
+                  text-anchor="middle"
+                  dominant-baseline="central"
+                >
+                  MANDAR • MAJENE
+                </textPath>
+              </text>
+
+              <!-- Titik pemisah disesuaikan posisinya ke radius 48 -->
+              <circle cx="12" cy="60" r="1.5" fill="#F4EFE6" />
+              <circle cx="108" cy="60" r="1.5" fill="#F4EFE6" />
+
+              <!-- ================= BAGIAN TENGAH (KREM) DIPERBESAR ================= -->
+              <!-- Radius krem diperbesar dari 34 menjadi 39 -->
+              <circle cx="60" cy="60" r="39" fill="#F4EFE6" />
+
+              <!-- Cincin ganda dekoratif dalam juga ikut diperbesar -->
+              <circle
+                cx="60"
+                cy="60"
+                r="37"
+                fill="none"
+                stroke="#1A4F2C"
+                stroke-width="1"
+              />
+              <circle
+                cx="60"
+                cy="60"
+                r="35.5"
+                fill="none"
+                stroke="#1A4F2C"
+                stroke-width="0.5"
+              />
+              <circle
+                cx="60"
+                cy="60"
+                r="33"
+                fill="none"
+                stroke="#1A4F2C"
+                stroke-width="0.5"
+                stroke-dasharray="1 2.5"
+              />
+
+              <!-- ================= KONTEN TEKS TENGAH ================= -->
+              <!-- Sekarang tulisan MANCOCO memiliki banyak ruang dan tidak akan menyentuh garis -->
+              <text x="60" y="44" text-anchor="middle" class="ornament">★</text>
+              <text x="60" y="58" text-anchor="middle" class="text-main">
+                MANCOCO
+              </text>
+              <text x="60" y="70" text-anchor="middle" class="text-sub">
+                — LABUANG —
+              </text>
+              <text x="60" y="82" text-anchor="middle" class="ornament">★</text>
+            </svg>
+
+            <!-- botol utama -->
+            <svg
+              class="bottle"
+              viewBox="0 0 220 320"
+              role="img"
+              aria-labelledby="bottleHeroTitle"
+            >
+              <title id="bottleHeroTitle">
+                Botol minyak kelapa Mancoco 600 ml berisi minyak keemasan
+              </title>
+              <defs>
+                <linearGradient id="oilHero" x1="0" y1="0" x2="0" y2="1">
+                  <stop offset="0" stop-color="#F3D489" />
+                  <stop offset="1" stop-color="#D4972F" />
+                </linearGradient>
+              </defs>
+              <ellipse
+                cx="110"
+                cy="303"
+                rx="72"
+                ry="10"
+                fill="#22271F"
+                opacity=".13"
+              />
+              <rect x="87" y="8" width="46" height="30" rx="7" fill="#164D2B" />
+              <rect x="93" y="36" width="34" height="20" fill="#E8C877" />
+              <path
+                d="M93 54 C93 68 62 74 62 96 L62 272 a26 26 0 0 0 26 26 h44 a26 26 0 0 0 26 -26 L158 96 C158 74 127 68 127 54 Z"
+                fill="url(#oilHero)"
+                stroke="#B9862B"
+                stroke-opacity=".45"
+                stroke-width="2"
+              />
+              <rect
+                x="72"
+                y="104"
+                width="15"
+                height="172"
+                rx="7.5"
+                fill="#FFFDF8"
+                opacity=".38"
+              />
+              <rect
+                x="66"
+                y="132"
+                width="88"
+                height="98"
+                rx="9"
+                fill="#FFFDF8"
+                stroke="#164D2B"
+                stroke-opacity=".15"
+              />
+              <rect
+                x="66"
+                y="132"
+                width="88"
+                height="20"
+                rx="9"
+                fill="#1F6B3C"
+              />
+              <rect x="66" y="145" width="88" height="7" fill="#1F6B3C" />
+              <path
+                d="M78 142 l5 -5 5 5 -5 5 Z M98 142 l5 -5 5 5 -5 5 Z M118 142 l5 -5 5 5 -5 5 Z M138 142 l5 -5 5 5 -5 5 Z"
+                fill="#E6B45A"
+              />
+              <text
+                x="110"
+                y="174"
+                text-anchor="middle"
+                font-family="Rockwell, Georgia, serif"
+                font-size="13"
+                font-weight="800"
+                letter-spacing="1"
+                fill="#164D2B"
+              >
+                MANCOCO
+              </text>
+              <line
+                x1="80"
+                y1="181"
+                x2="140"
+                y2="181"
+                stroke="#D4972F"
+                stroke-width="1"
+              />
+              <text
+                x="110"
+                y="198"
+                text-anchor="middle"
+                font-family="Georgia, serif"
+                font-size="7"
+                letter-spacing=".2"
+                fill="#5A6152"
+              >
+                MINYAK KELAPA
+              </text>
+              <text
+                x="110"
+                y="216"
+                text-anchor="middle"
+                font-family="Georgia, serif"
+                font-size="8.5"
+                letter-spacing="1"
+                fill="#5A6152"
+              >
+                · 600 ML ·
+              </text>
+            </svg>
+
+            <!-- Setengah butir kelapa (Tampilan Samping / Angled View) -->
+            <svg
+              class="hero__deco-coco"
+              viewBox="0 0 200 160"
+              aria-hidden="true"
+              width="250"
+              height="200"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <defs>
+                <!-- 1. Gradien untuk kulit luar (menciptakan efek mangkuk cembung 3D) -->
+                <radialGradient
+                  id="grad-husk-side"
+                  cx="50%"
+                  cy="30%"
+                  r="75%"
+                  fx="35%"
+                  fy="30%"
+                >
+                  <stop offset="0%" stop-color="#8a5a3a" />
+                  <stop offset="65%" stop-color="#5c381e" />
+                  <stop offset="100%" stop-color="#351d0f" />
+                </radialGradient>
+
+                <!-- 2. Gradien untuk daging putih (terang di atas, sedikit gelap di tepi dalam) -->
+                <radialGradient
+                  id="grad-flesh-side"
+                  cx="50%"
+                  cy="50%"
+                  r="50%"
+                  fx="50%"
+                  fy="20%"
+                >
+                  <stop offset="0%" stop-color="#FFFFFF" />
+                  <stop offset="85%" stop-color="#FDFBF7" />
+                  <stop offset="100%" stop-color="#E3D6C8" />
+                </radialGradient>
+
+                <!-- 3. Gradien untuk rongga kelapa (kedalaman cekung) -->
+                <radialGradient
+                  id="grad-hollow-side"
+                  cx="50%"
+                  cy="30%"
+                  r="65%"
+                  fx="50%"
+                  fy="20%"
+                >
+                  <stop offset="0%" stop-color="#E3D6C8" />
+                  <stop offset="50%" stop-color="#A68B74" />
+                  <stop offset="100%" stop-color="#4a3320" />
+                </radialGradient>
+              </defs>
+
+              <!-- ================= BAYANGAN BAWAH ================= -->
+              <!-- Efek melayang/berpijak pada permukaan landing page -->
+              <ellipse
+                cx="100"
+                cy="140"
+                rx="75"
+                ry="12"
+                fill="#000000"
+                opacity="0.15"
+              />
+
+              <!-- ================= KULIT LUAR (MANGKUK) ================= -->
+              <!-- Path lengkung untuk membentuk bagian bawah kelapa -->
+              <path
+                d="M 20 70 C 20 155, 180 155, 180 70 Z"
+                fill="url(#grad-husk-side)"
+              />
+
+              <!-- ================= SERABUT KELAPA ================= -->
+              <!-- Garis-garis yang mengikuti lengkungan kulit kelapa -->
+              <g
+                stroke="#3a2210"
+                fill="none"
+                stroke-linecap="round"
+                opacity="0.6"
+              >
+                <!-- Serabut di badan utama -->
+                <path d="M 35 90 Q 60 130 100 135" stroke-width="1.5" />
+                <path d="M 165 90 Q 140 130 100 135" stroke-width="1.5" />
+                <path d="M 50 110 Q 75 140 110 138" stroke-width="1" />
+                <path d="M 150 110 Q 125 140 90 138" stroke-width="1" />
+                <path d="M 70 80 Q 90 115 130 110" stroke-width="1.2" />
+                <path d="M 40 105 Q 60 120 80 125" stroke-width="0.8" />
+                <path d="M 160 105 Q 140 120 120 125" stroke-width="0.8" />
+
+                <!-- Serabut yang mencuat keluar dari tepi -->
+                <path d="M 20 70 Q 10 75 15 85" stroke-width="1" />
+                <path d="M 23 85 Q 15 95 20 105" stroke-width="0.8" />
+                <path d="M 180 70 Q 190 75 185 85" stroke-width="1" />
+                <path d="M 177 85 Q 185 95 180 105" stroke-width="0.8" />
+                <path d="M 150 135 Q 160 145 155 150" stroke-width="1" />
+                <path d="M 50 135 Q 40 145 45 150" stroke-width="1" />
+              </g>
+
+              <!-- ================= CANGKANG KERAS (Garis Pemisah) ================= -->
+              <!-- Memberikan ketebalan cokelat gelap antara kulit dan daging putih -->
+              <ellipse cx="100" cy="70" rx="82" ry="34" fill="#351d0f" />
+
+              <!-- ================= DAGING PUTIH KELAPA ================= -->
+              <!-- Permukaan elips untuk pinggiran daging kelapa yang dipotong -->
+              <ellipse
+                cx="100"
+                cy="70"
+                rx="80"
+                ry="32"
+                fill="url(#grad-flesh-side)"
+              />
+
+              <!-- ================= RONGGA DALAM ================= -->
+              <!-- Bagian cekung di tengah kelapa. Digeser sedikit ke bawah (cy="73") untuk memberi ilusi ketebalan daging -->
+              <ellipse
+                cx="100"
+                cy="73"
+                rx="60"
+                ry="23"
+                fill="url(#grad-hollow-side)"
+              />
+
+              <!-- ================= AIR KELAPA (Opsional) ================= -->
+              <!-- Genangan air transparan di dasar rongga -->
+              <g>
+                <!-- Permukaan air -->
+                <ellipse
+                  cx="100"
+                  cy="85"
+                  rx="42"
+                  ry="10"
+                  fill="#ffffff"
+                  opacity="0.25"
+                />
+                <!-- Kilauan pantulan cahaya pada air -->
+                <ellipse
+                  cx="85"
+                  cy="83"
+                  rx="12"
+                  ry="2"
+                  fill="#ffffff"
+                  opacity="0.6"
+                />
+                <ellipse
+                  cx="115"
+                  cy="86"
+                  rx="6"
+                  ry="1.5"
+                  fill="#ffffff"
+                  opacity="0.4"
+                />
+              </g>
+            </svg>
+
+            <!-- catatan kecil -->
+            <p class="note note--a">
+              Dimasak ±1 jam di wajan 🔥<small
+                >diaduk manual, bukan mesin</small
+              >
+            </p>
+            <p class="note note--b">
+              Batch kecil, sesuai pesanan<small>jadi selalu baru sampai</small>
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <!-- ══════════ PROSES & KEPERCAYAAN ══════════ -->
+      <section
+        class="section process"
+        id="proses"
+        aria-labelledby="prosesTitle"
+      >
+        <div class="wrap">
+          <div>
+            <p class="kicker reveal">Proses Tradisional</p>
+            <h2 id="prosesTitle" class="reveal d1">
+              Dari Butir Kelapa ke Botol — Tanpa Jalan Pintas.
+            </h2>
+            <p class="lede reveal d2">
+              Cara membuatnya sama seperti di dapur-dapur kampung di Mandar
+              sejak dulu. Pelan, manual, dan tidak buru-buru.
+            </p>
+
+            <ol class="steps">
+              <li class="step reveal">
+                <div class="step__head">
+                  <span class="step__num" aria-hidden="true">01</span>
+                  <h3>
+                    Persiapan Kelapa
+                    <span class="sr-only" hidden>— langkah pertama</span>
+                  </h3>
+                </div>
+                <p>
+                  Langkah awal dimulai dengan mengeluarkan daging kelapa dari
+                  tempurungnya dan memastikan bagian kulit arinya benar-benar
+                  bersih terpisah.
+                </p>
+                <svg
+                  class="ic"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="1.8"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  aria-hidden="true"
+                >
+                  <circle cx="12" cy="12" r="9" />
+                  <path d="M12 3v18" />
+                  <circle cx="8.5" cy="10" r="0.6" fill="currentColor" />
+                  <circle cx="15.5" cy="10" r="0.6" fill="currentColor" />
+                  <circle cx="12" cy="15" r="0.6" fill="currentColor" />
+                </svg>
+              </li>
+              <li class="step reveal d1">
+                <div class="step__head">
+                  <span class="step__num" aria-hidden="true">02</span>
+                  <h3>Penggilingan</h3>
+                </div>
+                <p>
+                  Daging kelapa yang sudah bersih tadi kemudian diparut
+                  menggunakan mesin parut rumahan supaya hasilnya lebih efisien.
+                </p>
+                <svg
+                  class="ic"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="1.8"
+                  stroke-linecap="round"
+                  aria-hidden="true"
+                >
+                  <path d="M12 3a9 9 0 0 1 9 9H3a9 9 0 0 1 9-9Z" />
+                  <path d="M3 12h18M7 16h10M9 20h6" />
+                </svg>
+              </li>
+              <li class="step reveal d2">
+                <div class="step__head">
+                  <span class="step__num" aria-hidden="true">03</span>
+                  <h3>Ekstraksi Santan</h3>
+                </div>
+                <p>
+                  Setelah diparut, kelapa langsung diperas untuk diambil santan
+                  murninya.
+                </p>
+                <svg
+                  class="ic"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="1.8"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  aria-hidden="true"
+                >
+                  <path d="M12 3s6 7 6 12a6 6 0 0 1-12 0c0-5 6-12 6-12Z" />
+                  <path d="M9.5 14.5a2.5 2.5 0 0 0 2.5 2.5" />
+                </svg>
+              </li>
+              <li class="step reveal">
+                <div class="step__head">
+                  <span class="step__num" aria-hidden="true">04</span>
+                  <h3>Fermentasi (Pendiaman)</h3>
+                </div>
+                <p>
+                  Santan didiamkan selama semalam agar air dan minyaknya
+                  terpisah secara alami. Trik ini sengaja dipilih supaya
+                  nantinya proses memasak tidak perlu memakan waktu terlalu
+                  lama.
+                </p>
+                <svg
+                  class="ic"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="1.8"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  aria-hidden="true"
+                >
+                  <path d="M21 12.8A8 8 0 1 1 11.2 3 6 6 0 0 0 21 12.8Z" />
+                </svg>
+              </li>
+              <li class="step reveal d1">
+                <div class="step__head">
+                  <span class="step__num" aria-hidden="true">05</span>
+                  <h3>Pemasakan</h3>
+                </div>
+                <p>
+                  Santan yang sudah melalui proses fermentasi tadi kemudian
+                  dimasak di atas wajan dengan api stabil selama kurang lebih
+                  satu jam.
+                </p>
+                <svg
+                  class="ic"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="1.8"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  aria-hidden="true"
+                >
+                  <path d="M4 11h16v3a6 6 0 0 1-6 6h-4a6 6 0 0 1-6-6v-3Z" />
+                  <path
+                    d="M2 11h20M9 7c0-1.5 1.5-1.5 1.5-3M14 7c0-1.5 1.5-1.5 1.5-3"
+                  />
+                </svg>
+              </li>
+              <li class="step reveal d2">
+                <div class="step__head">
+                  <span class="step__num" aria-hidden="true">06</span>
+                  <h3>Penyaringan</h3>
+                </div>
+                <p>
+                  Sebagai tahap penutup, minyak disaring dari sisa ampasnya.
+                  Hasil akhirnya adalah Minyak Mandar asli yang berkualitas dan
+                  siap digunakan.
+                </p>
+                <svg
+                  class="ic"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="1.8"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  aria-hidden="true"
+                >
+                  <path d="M3 4h18l-7 8v7l-4 2v-9Z" />
+                </svg>
+              </li>
+            </ol>
+          </div>
+
+          <aside class="artisan reveal d1" aria-labelledby="artisanTitle">
+            <p class="artisan__badge">Made to Order · Sesuai Pesanan</p>
+            <div class="artisan__frame">
+              <img
+                class="artisan__photo"
+                src="proses/jpg/proses.jpg"
+                alt="Pengrajin memasak santan di wajan dengan api stabil, diaduk manual sampai jadi minyak."
+                width="1448"
+                height="1086"
+                loading="lazy"
+                decoding="async"
+              />
+            </div>
+            <div class="artisan__caption">
+              <p>Dapur pengrajin · Labuang, Majene</p>
+              <small>Difoto langsung di dapur produksi.</small>
+            </div>
+            <div class="artisan__body">
+              <h3 id="artisanTitle">
+                Dimasak oleh Pengrajin Lokal, Bukan Pabrik.
+              </h3>
+              <p>
+                Kami tidak menyetok banyak. Setiap batch dimasak sesuai pesanan
+                oleh pengrajin di Jl. Pettaroni, Labuang — jadi minyak yang
+                sampai di tanganmu selalu baru, wangi, dan jelas asal-usulnya.
+                Alamat dapur kami terbuka untuk siapa pun yang mau mampir saat
+                mudik.
+              </p>
+              <div class="stats">
+                <span class="chip"
+                  ><svg
+                    class="ic"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    aria-hidden="true"
+                  >
+                    <circle cx="12" cy="12" r="9" />
+                    <path d="M12 7v5l3 3" />
+                  </svg>
+                  ±1 jam diaduk manual</span
+                >
+                <span class="chip"
+                  ><svg
+                    class="ic"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    aria-hidden="true"
+                  >
+                    <path d="M12 3s6 7 6 12a6 6 0 0 1-12 0c0-5 6-12 6-12Z" />
+                  </svg>
+                  100% kelapa lokal</span
+                >
+                <span class="chip"
+                  ><svg
+                    class="ic"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    aria-hidden="true"
+                  >
+                    <path d="M5 12h14" />
+                  </svg>
+                  0 campuran</span
+                >
+              </div>
+            </div>
+          </aside>
+        </div>
+      </section>
+
+      <!-- ══════════ KATALOG PRODUK ══════════ -->
+      <section class="section" id="katalog" aria-labelledby="katalogTitle">
+        <div class="wrap">
+          <div class="catalog__head">
+            <div>
+              <p class="kicker reveal">Katalog</p>
+              <h2 id="katalogTitle" class="reveal d1">
+                Pilih Ukuranmu, Sesuaikan Dapurmu.
+              </h2>
+              <p class="lede reveal d2">
+                Tiga pilihan kemasan, satu isi yang sama: minyak kelapa masak
+                tradisional, non-RBD.
+              </p>
+            </div>
+          </div>
+
+          <div class="cards">
+            <!-- Produk 1: Botol 600ml -->
+            <article class="card reveal" aria-labelledby="p1Title">
+              <div class="card__ph">
+                <svg viewBox="0 0 140 190" role="img" aria-labelledby="p1Img">
+                  <title id="p1Img">
+                    Ilustrasi botol minyak kelapa Mancoco 600 ml
+                  </title>
+                  <defs>
+                    <linearGradient id="oil1" x1="0" y1="0" x2="0" y2="1">
+                      <stop offset="0" stop-color="#F3D489" />
+                      <stop offset="1" stop-color="#D4972F" />
+                    </linearGradient>
+                  </defs>
+                  <ellipse
+                    cx="70"
+                    cy="178"
+                    rx="42"
+                    ry="6"
+                    fill="#22271F"
+                    opacity=".12"
+                  />
+                  <rect
+                    x="55"
+                    y="8"
+                    width="30"
+                    height="20"
+                    rx="5"
+                    fill="#164D2B"
+                  />
+                  <rect x="59" y="26" width="22" height="13" fill="#E8C877" />
+                  <path
+                    d="M59 38 C59 47 38 51 38 65 L38 158 a17 17 0 0 0 17 17 h30 a17 17 0 0 0 17 -17 L102 65 C102 51 81 47 81 38 Z"
+                    fill="url(#oil1)"
+                    stroke="#B9862B"
+                    stroke-opacity=".45"
+                    stroke-width="1.6"
+                  />
+                  <rect
+                    x="45"
+                    y="82"
+                    width="50"
+                    height="58"
+                    rx="6"
+                    fill="#FFFDF8"
+                    stroke="#164D2B"
+                    stroke-opacity=".15"
+                  />
+                  <rect
+                    x="45"
+                    y="82"
+                    width="50"
+                    height="13"
+                    rx="6"
+                    fill="#1F6B3C"
+                  />
+                  <rect x="45" y="90" width="50" height="5" fill="#1F6B3C" />
+                  <text
+                    x="70"
+                    y="112"
+                    text-anchor="middle"
+                    font-family="Rockwell, Georgia, serif"
+                    font-size="10.5"
+                    font-weight="800"
+                    letter-spacing="1"
+                    fill="#164D2B"
+                  >
+                    MANCOCO
+                  </text>
+                  <text
+                    x="70"
+                    y="126"
+                    text-anchor="middle"
+                    font-family="Georgia, serif"
+                    font-size="6"
+                    letter-spacing="2"
+                    fill="#5A6152"
+                  >
+                    MINYAK KELAPA
+                  </text>
+                  <text
+                    x="70"
+                    y="135"
+                    text-anchor="middle"
+                    font-family="Georgia, serif"
+                    font-size="6"
+                    letter-spacing="1.5"
+                    fill="#5A6152"
+                  >
+                    · 600 ML ·
+                  </text>
+                </svg>
+              </div>
+              <div class="card__body">
+                <p class="card__meta">Botol · ±600 ml</p>
+                <h3 id="p1Title">Minyak Kelapa Mancoco — Botol 600ml</h3>
+                <p class="card__desc">
+                  Cocok buat coba dulu. Sekali masak langsung tahu bedanya.
+                </p>
+                <p class="card__price">Rp25.000 <small>/botol</small></p>
+                <a
+                  class="btn btn-primary"
+                  href="https://wa.me/6285696343551?text=Halo%20Mancoco%2C%20saya%20mau%20pesan%20%2AMinyak%20Kelapa%20Mancoco%20-%20Botol%20600ml%2A%20(Rp25.000).%20%5Bvia%20web%5D"
+                  target="_blank"
+                  rel="noopener"
+                >
+                  <svg
+                    class="ic"
+                    viewBox="0 0 24 24"
+                    fill="currentColor"
+                    aria-hidden="true"
+                  >
+                    <path
+                      d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.45 1.32 4.95L2 22l5.25-1.38a9.9 9.9 0 0 0 4.79 1.22h.01c5.46 0 9.91-4.45 9.91-9.91 0-2.65-1.03-5.14-2.9-7.01A9.82 9.82 0 0 0 12.04 2Zm0 18.14h-.01a8.24 8.24 0 0 1-4.19-1.15l-.3-.18-3.12.82.83-3.04-.2-.31a8.2 8.2 0 0 1-1.26-4.38c0-4.54 3.7-8.24 8.25-8.24 2.2 0 4.27.86 5.83 2.42a8.19 8.19 0 0 1 2.41 5.83c0 4.54-3.7 8.24-8.24 8.24Zm4.52-6.17c-.25-.12-1.47-.72-1.69-.81-.23-.08-.39-.12-.56.13-.16.25-.64.81-.79.97-.14.17-.29.19-.54.06-.25-.12-1.05-.39-1.99-1.23-.74-.66-1.23-1.47-1.38-1.72-.14-.25-.02-.38.11-.51.11-.11.25-.29.37-.43.13-.14.17-.25.25-.41.08-.17.04-.31-.02-.43-.06-.12-.56-1.34-.76-1.84-.2-.48-.4-.42-.56-.43-.14-.01-.31-.01-.48-.01a.92.92 0 0 0-.66.31c-.23.25-.87.85-.87 2.07 0 1.22.89 2.4 1.01 2.56.12.17 1.75 2.67 4.23 3.74.59.26 1.05.41 1.41.52.59.19 1.13.16 1.56.1.48-.07 1.47-.6 1.68-1.18.21-.58.21-1.07.14-1.18-.06-.11-.22-.17-.47-.29Z"
+                    />
+                  </svg>
+                  Pesan via WhatsApp
+                </a>
+              </div>
+            </article>
+
+            <!-- Produk 2: Paket Oleh-oleh (unggulan) -->
+            <article
+              class="card card--featured reveal d1"
+              aria-labelledby="p2Title"
+            >
+              <p class="ribbon">Lebih Hemat</p>
+              <div class="card__ph">
+                <svg viewBox="0 0 190 190" role="img" aria-labelledby="p2Img">
+                  <title id="p2Img">
+                    Ilustrasi paket oleh-oleh lima botol minyak kelapa Mancoco
+                    dalam peti kayu
+                  </title>
+                  <defs>
+                    <linearGradient id="oil2" x1="0" y1="0" x2="0" y2="1">
+                      <stop offset="0" stop-color="#F3D489" />
+                      <stop offset="1" stop-color="#D4972F" />
+                    </linearGradient>
+                  </defs>
+                  <ellipse
+                    cx="95"
+                    cy="176"
+                    rx="70"
+                    ry="7"
+                    fill="#22271F"
+                    opacity=".12"
+                  />
+                  <g>
+                    <g id="miniBottle">
+                      <rect
+                        x="-7"
+                        y="0"
+                        width="14"
+                        height="11"
+                        rx="3"
+                        fill="#164D2B"
+                      />
+                      <path
+                        d="M-9 10 C-9 15 -14 17 -14 23 L-14 62 a8 8 0 0 0 8 8 h12 a8 8 0 0 0 8 -8 L14 23 C14 17 9 15 9 10 Z"
+                        fill="url(#oil2)"
+                        stroke="#B9862B"
+                        stroke-opacity=".4"
+                      />
+                      <rect
+                        x="-10"
+                        y="30"
+                        width="20"
+                        height="22"
+                        rx="3"
+                        fill="#FFFDF8"
+                      />
+                      <rect
+                        x="-10"
+                        y="30"
+                        width="20"
+                        height="6"
+                        rx="3"
+                        fill="#1F6B3C"
+                      />
+                    </g>
+                    <use href="#miniBottle" x="35" y="52" />
+                    <use href="#miniBottle" x="65" y="48" />
+                    <use href="#miniBottle" x="95" y="52" />
+                    <use href="#miniBottle" x="125" y="48" />
+                    <use href="#miniBottle" x="155" y="52" />
+                  </g>
+                  <rect
+                    x="16"
+                    y="106"
+                    width="158"
+                    height="62"
+                    rx="8"
+                    fill="#B0803F"
+                  />
+                  <rect
+                    x="16"
+                    y="106"
+                    width="158"
+                    height="10"
+                    rx="5"
+                    fill="#96682F"
+                  />
+                  <rect
+                    x="16"
+                    y="132"
+                    width="158"
+                    height="8"
+                    fill="#96682F"
+                    opacity=".7"
+                  />
+                  <text
+                    x="95"
+                    y="158"
+                    text-anchor="middle"
+                    font-family="Rockwell, Georgia, serif"
+                    font-size="13"
+                    font-weight="800"
+                    letter-spacing="2.5"
+                    fill="#FFFDF8"
+                  >
+                    MANCOCO
+                  </text>
+                </svg>
+              </div>
+              <div class="card__body">
+                <p class="card__meta">Paket · 5 × 600 ml</p>
+                <h3 id="p2Title">Paket Oleh-oleh Mancoco — 5 Botol</h3>
+                <p class="card__desc">
+                  Buat stok sebulan, atau oleh-oleh yang pasti berkesan buat
+                  keluarga.
+                </p>
+                <p class="card__price">Rp120.000 <small>/paket</small></p>
+                <p class="card__save">Hemat Rp5.000 vs beli satuan</p>
+                <a
+                  class="btn btn-primary"
+                  href="https://wa.me/6285696343551?text=Halo%20Mancoco%2C%20saya%20mau%20pesan%20%2APaket%20Oleh-oleh%20Mancoco%20-%205%20Botol%2A%20(Rp120.000).%20%5Bvia%20web%5D"
+                  target="_blank"
+                  rel="noopener"
+                >
+                  <svg
+                    class="ic"
+                    viewBox="0 0 24 24"
+                    fill="currentColor"
+                    aria-hidden="true"
+                  >
+                    <path
+                      d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.45 1.32 4.95L2 22l5.25-1.38a9.9 9.9 0 0 0 4.79 1.22h.01c5.46 0 9.91-4.45 9.91-9.91 0-2.65-1.03-5.14-2.9-7.01A9.82 9.82 0 0 0 12.04 2Zm0 18.14h-.01a8.24 8.24 0 0 1-4.19-1.15l-.3-.18-3.12.82.83-3.04-.2-.31a8.2 8.2 0 0 1-1.26-4.38c0-4.54 3.7-8.24 8.25-8.24 2.2 0 4.27.86 5.83 2.42a8.19 8.19 0 0 1 2.41 5.83c0 4.54-3.7 8.24-8.24 8.24Zm4.52-6.17c-.25-.12-1.47-.72-1.69-.81-.23-.08-.39-.12-.56.13-.16.25-.64.81-.79.97-.14.17-.29.19-.54.06-.25-.12-1.05-.39-1.99-1.23-.74-.66-1.23-1.47-1.38-1.72-.14-.25-.02-.38.11-.51.11-.11.25-.29.37-.43.13-.14.17-.25.25-.41.08-.17.04-.31-.02-.43-.06-.12-.56-1.34-.76-1.84-.2-.48-.4-.42-.56-.43-.14-.01-.31-.01-.48-.01a.92.92 0 0 0-.66.31c-.23.25-.87.85-.87 2.07 0 1.22.89 2.4 1.01 2.56.12.17 1.75 2.67 4.23 3.74.59.26 1.05.41 1.41.52.59.19 1.13.16 1.56.1.48-.07 1.47-.6 1.68-1.18.21-.58.21-1.07.14-1.18-.06-.11-.22-.17-.47-.29Z"
+                    />
+                  </svg>
+                  Pesan via WhatsApp
+                </a>
+              </div>
+            </article>
+
+            <!-- Produk 3: Jerigen 5L -->
+            <article class="card reveal d2" aria-labelledby="p3Title">
+              <div class="card__ph">
+                <svg viewBox="0 0 160 190" role="img" aria-labelledby="p3Img">
+                  <title id="p3Img">
+                    Ilustrasi jerigen minyak kelapa Mancoco 5 liter
+                  </title>
+                  <defs>
+                    <linearGradient id="oil3" x1="0" y1="0" x2="0" y2="1">
+                      <stop offset="0" stop-color="#F3D489" />
+                      <stop offset="1" stop-color="#D4972F" />
+                    </linearGradient>
+                  </defs>
+                  <ellipse
+                    cx="80"
+                    cy="178"
+                    rx="56"
+                    ry="6"
+                    fill="#22271F"
+                    opacity=".12"
+                  />
+                  <rect
+                    x="38"
+                    y="14"
+                    width="22"
+                    height="16"
+                    rx="4"
+                    fill="#164D2B"
+                  />
+                  <path d="M42 30 h14 v14 h-14 Z" fill="#E8C877" />
+                  <path
+                    d="M96 44 c0-12 8-16 20-16 v12 c-6 0-8 2-8 8 Z"
+                    fill="none"
+                    stroke="#B9862B"
+                    stroke-width="7"
+                    stroke-linecap="round"
+                    opacity=".85"
+                  />
+                  <path
+                    d="M34 44 h92 a14 14 0 0 1 14 14 v102 a14 14 0 0 1 -14 14 H34 a14 14 0 0 1 -14 -14 V58 a14 14 0 0 1 14 -14 Z"
+                    fill="url(#oil3)"
+                    stroke="#B9862B"
+                    stroke-opacity=".45"
+                    stroke-width="2"
+                  />
+                  <rect
+                    x="30"
+                    y="56"
+                    width="10"
+                    height="106"
+                    rx="5"
+                    fill="#FFFDF8"
+                    opacity=".35"
+                  />
+                  <rect
+                    x="48"
+                    y="78"
+                    width="64"
+                    height="64"
+                    rx="7"
+                    fill="#FFFDF8"
+                    stroke="#164D2B"
+                    stroke-opacity=".15"
+                  />
+                  <rect
+                    x="48"
+                    y="78"
+                    width="64"
+                    height="14"
+                    rx="7"
+                    fill="#1F6B3C"
+                  />
+                  <rect x="48" y="86" width="64" height="6" fill="#1F6B3C" />
+                  <text
+                    x="80"
+                    y="112"
+                    text-anchor="middle"
+                    font-family="Rockwell, Georgia, serif"
+                    font-size="20"
+                    font-weight="800"
+                    fill="#164D2B"
+                  >
+                    5L
+                  </text>
+                  <text
+                    x="80"
+                    y="128"
+                    text-anchor="middle"
+                    font-family="Rockwell, Georgia, serif"
+                    font-size="8"
+                    font-weight="800"
+                    letter-spacing="1.5"
+                    fill="#164D2B"
+                  >
+                    MANCOCO
+                  </text>
+                </svg>
+              </div>
+              <div class="card__body">
+                <p class="card__meta">Jerigen · 5 liter</p>
+                <h3 id="p3Title">Minyak Kelapa Mancoco — Jerigen 5L</h3>
+                <p class="card__desc">
+                  Buat yang masak tiap hari, atau dapur usaha kuliner.
+                </p>
+                <p class="card__price">Rp200.000 <small>/jerigen</small></p>
+                <a
+                  class="btn btn-primary"
+                  href="https://wa.me/6285696343551?text=Halo%20Mancoco%2C%20saya%20mau%20pesan%20%2AMinyak%20Kelapa%20Mancoco%20-%20Jerigen%205L%2A%20(Rp200.000).%20%5Bvia%20web%5D"
+                  target="_blank"
+                  rel="noopener"
+                >
+                  <svg
+                    class="ic"
+                    viewBox="0 0 24 24"
+                    fill="currentColor"
+                    aria-hidden="true"
+                  >
+                    <path
+                      d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.45 1.32 4.95L2 22l5.25-1.38a9.9 9.9 0 0 0 4.79 1.22h.01c5.46 0 9.91-4.45 9.91-9.91 0-2.65-1.03-5.14-2.9-7.01A9.82 9.82 0 0 0 12.04 2Zm0 18.14h-.01a8.24 8.24 0 0 1-4.19-1.15l-.3-.18-3.12.82.83-3.04-.2-.31a8.2 8.2 0 0 1-1.26-4.38c0-4.54 3.7-8.24 8.25-8.24 2.2 0 4.27.86 5.83 2.42a8.19 8.19 0 0 1 2.41 5.83c0 4.54-3.7 8.24-8.24 8.24Zm4.52-6.17c-.25-.12-1.47-.72-1.69-.81-.23-.08-.39-.12-.56.13-.16.25-.64.81-.79.97-.14.17-.29.19-.54.06-.25-.12-1.05-.39-1.99-1.23-.74-.66-1.23-1.47-1.38-1.72-.14-.25-.02-.38.11-.51.11-.11.25-.29.37-.43.13-.14.17-.25.25-.41.08-.17.04-.31-.02-.43-.06-.12-.56-1.34-.76-1.84-.2-.48-.4-.42-.56-.43-.14-.01-.31-.01-.48-.01a.92.92 0 0 0-.66.31c-.23.25-.87.85-.87 2.07 0 1.22.89 2.4 1.01 2.56.12.17 1.75 2.67 4.23 3.74.59.26 1.05.41 1.41.52.59.19 1.13.16 1.56.1.48-.07 1.47-.6 1.68-1.18.21-.58.21-1.07.14-1.18-.06-.11-.22-.17-.47-.29Z"
+                    />
+                  </svg>
+                  Pesan via WhatsApp
+                </a>
+              </div>
+            </article>
+          </div>
+
+          <p class="catalog__note reveal">
+            <svg
+              class="ic"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              aria-hidden="true"
+            >
+              <path d="M3 7h11v10H3zM14 10h4l3 3v4h-7z" />
+              <circle cx="7" cy="17.5" r="1.8" />
+              <circle cx="17.5" cy="17.5" r="1.8" />
+            </svg>
+            <span
+              ><strong>Harga belum termasuk ongkir.</strong> Ongkir dihitung
+              langsung di WhatsApp sesuai alamatmu — kami kirim dari Majene ke
+              seluruh Indonesia, dikemas aman supaya tidak bocor di jalan.</span
+            >
+          </p>
+        </div>
+      </section>
+
+      <!-- ══════════ BUAT SIAPA (social proof) ══════════ -->
+      <section class="section" id="untuk" aria-labelledby="untukTitle">
+        <div class="wrap">
+          <p class="kicker reveal">Buat Siapa Minyak Ini?</p>
+          <h2 id="untukTitle" class="reveal d1">
+            Dua Alasan Orang Balik Lagi: Dapur Sendiri, atau Orang Rumah.
+          </h2>
+          <p class="lede reveal d2">
+            Kalau kamu salah satunya, kemungkinan besar kamu akan jadi pelanggan
+            tetap.
+          </p>
+
+          <div class="aud">
+            <article
+              class="panel panel--cook reveal"
+              aria-labelledby="cookTitle"
+            >
+              <p class="panel__tag" aria-hidden="true">resep nenek ✦</p>
+              <svg
+                class="ic"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="1.7"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                aria-hidden="true"
+              >
+                <path d="M4 11h16v3a6 6 0 0 1-6 6h-4a6 6 0 0 1-6-6v-3Z" />
+                <path
+                  d="M2 11h20M9 7c0-1.5 1.5-1.5 1.5-3M14 7c0-1.5 1.5-1.5 1.5-3"
+                />
+              </svg>
+              <h3 id="cookTitle">Buat Juru Masak</h3>
+              <p>
+                Peapi, ikan bakar, sambal goreng, sayur lodeh — gurihnya masakan
+                Mandar itu ada di minyaknya. Sekali tuang minyak kelapa masak
+                tradisional, rasa masakanmu balik ke resep nenek.
+              </p>
+              <blockquote>
+                “Sekali tuang, langsung ingat kampung. Beda rasanya.”
+                <cite>Juru Masak · resep harian</cite>
+              </blockquote>
+            </article>
+
+            <article
+              class="panel panel--gift reveal d1"
+              aria-labelledby="giftTitle"
+            >
+              <p class="panel__tag" aria-hidden="true">dari kampung ♥</p>
+              <svg
+                class="ic"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="1.7"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                aria-hidden="true"
+              >
+                <rect x="3" y="8" width="18" height="4" />
+                <path d="M5 12v9h14v-9M12 8v13" />
+                <path
+                  d="M12 8s-4.5.5-5.5-2S9 2.5 12 8Zm0 0s4.5.5 5.5-2S15 2.5 12 8Z"
+                />
+              </svg>
+              <h3 id="giftTitle">Buat Pemberi Oleh-oleh</h3>
+              <p>
+                Mau mudik bawa sesuatu yang berkesan? Atau kirim rasa kampung
+                buat keluarga di kota? Paket 5 botol dikemas rapi — bisa
+                langsung dikirim ke alamat penerima, tetap layak kasih.
+              </p>
+              <blockquote>
+                “Bawa lima botol ke Jakarta, habis sebelum sampai.”
+                <cite>Pemberi Oleh-oleh · keluarga di rantau</cite>
+              </blockquote>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <!-- ══════════ CARA PESAN + CTA PENUTUP ══════════ -->
+      <section
+        class="section howto"
+        id="cara-pesan"
+        aria-labelledby="caraTitle"
+      >
+        <div class="wrap">
+          <p class="kicker reveal">Cara Pesan</p>
+          <h2 id="caraTitle" class="reveal d1">
+            Gampang Banget — Tiga Ketukan, Langsung Ngobrol.
+          </h2>
+          <p class="lede reveal d2">
+            Tidak ada keranjang, tidak ada formulir panjang. Semua urusan
+            selesai di WhatsApp.
+          </p>
+
+          <ol class="howto__steps" aria-label="Langkah cara pesan">
+            <li class="hstep reveal">
+              <h3>Pilih Produk</h3>
+              <p>Tentukan ukuran yang pas dengan dapurmu.</p>
+            </li>
+            <li class="hstep reveal d1">
+              <h3>Klik “Pesan via WhatsApp”</h3>
+              <p>Pesanmu sudah tertulis otomatis, tinggal kirim.</p>
+            </li>
+            <li class="hstep reveal d2">
+              <h3>Konfirmasi &amp; Bayar</h3>
+              <p>Kami hitungkan ongkirnya; bayar via transfer atau QRIS.</p>
+            </li>
+            <li class="hstep reveal d3">
+              <h3>Dimasak &amp; Dikirim</h3>
+              <p>Minyak dimasak sesuai pesanan, lalu berangkat dari Majene.</p>
+            </li>
+          </ol>
+
+          <div class="cta-banner reveal">
+            <div>
+              <h2>Kangen Masakan Kampung?</h2>
+              <p>
+                Ngobrol dulu saja, gratis. Tanya stok, ongkir ke kotamu, atau
+                sekadar cerita soal masakan nenek.
+              </p>
+            </div>
+            <a
+              class="btn"
+              href="https://wa.me/6285696343551?text=Halo%20Mancoco%2C%20saya%20mau%20tanya-tanya%20dulu.%20%5Bvia%20web%5D"
+              target="_blank"
+              rel="noopener"
+            >
+              <svg
+                class="ic"
+                viewBox="0 0 24 24"
+                fill="currentColor"
+                aria-hidden="true"
+              >
+                <path
+                  d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.45 1.32 4.95L2 22l5.25-1.38a9.9 9.9 0 0 0 4.79 1.22h.01c5.46 0 9.91-4.45 9.91-9.91 0-2.65-1.03-5.14-2.9-7.01A9.82 9.82 0 0 0 12.04 2Zm0 18.14h-.01a8.24 8.24 0 0 1-4.19-1.15l-.3-.18-3.12.82.83-3.04-.2-.31a8.2 8.2 0 0 1-1.26-4.38c0-4.54 3.7-8.24 8.25-8.24 2.2 0 4.27.86 5.83 2.42a8.19 8.19 0 0 1 2.41 5.83c0 4.54-3.7 8.24-8.24 8.24Zm4.52-6.17c-.25-.12-1.47-.72-1.69-.81-.23-.08-.39-.12-.56.13-.16.25-.64.81-.79.97-.14.17-.29.19-.54.06-.25-.12-1.05-.39-1.99-1.23-.74-.66-1.23-1.47-1.38-1.72-.14-.25-.02-.38.11-.51.11-.11.25-.29.37-.43.13-.14.17-.25.25-.41.08-.17.04-.31-.02-.43-.06-.12-.56-1.34-.76-1.84-.2-.48-.4-.42-.56-.43-.14-.01-.31-.01-.48-.01a.92.92 0 0 0-.66.31c-.23.25-.87.85-.87 2.07 0 1.22.89 2.4 1.01 2.56.12.17 1.75 2.67 4.23 3.74.59.26 1.05.41 1.41.52.59.19 1.13.16 1.56.1.48-.07 1.47-.6 1.68-1.18.21-.58.21-1.07.14-1.18-.06-.11-.22-.17-.47-.29Z"
+                />
+              </svg>
+              Chat Mancoco Sekarang
+            </a>
+            <p class="cta-banner__hours">
+              Dibalas tiap hari · 08.00–21.00 WITA
+            </p>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <!-- ══════════ FOOTER ══════════ -->
+    <footer class="footer" id="kontak" aria-labelledby="kontakTitle">
+      <div class="wrap">
+        <div class="footer__grid">
+          <div>
+            <a class="brand" href="#beranda" style="text-decoration: none">
+              <img
+                class="brand__mark"
+                src="logo/logo-mancoco-transparan.png"
+                alt=""
+                width="56"
+                height="56"
+                decoding="async"
+              />
+              <span>
+                <span class="brand__name">Mancoco</span>
+                <span class="brand__sub">Mandar Coconut · Majene</span>
+              </span>
+            </a>
+            <p style="margin-top: 1rem">
+              Minyak kelapa tradisional dari Mandar. Dimasak pelan-pelan oleh
+              pengrajin lokal, dikirim ke seluruh Nusantara.
+            </p>
+          </div>
+          <div>
+            <h3 id="kontakTitle">Kontak &amp; Lokasi</h3>
+            <address>
+              Jl. Pettaroni, Labuang<br />
+              Banggae Timur, Majene<br />
+              Sulawesi Barat
+            </address>
+            <a
+              class="footer__wa"
+              href="https://wa.me/6285696343551?text=Halo%20Mancoco%2C%20saya%20mau%20tanya-tanya%20dulu.%20%5Bvia%20web%5D"
+              target="_blank"
+              rel="noopener"
+            >
+              <svg
+                class="ic"
+                viewBox="0 0 24 24"
+                fill="currentColor"
+                aria-hidden="true"
+              >
+                <path
+                  d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.45 1.32 4.95L2 22l5.25-1.38a9.9 9.9 0 0 0 4.79 1.22h.01c5.46 0 9.91-4.45 9.91-9.91 0-2.65-1.03-5.14-2.9-7.01A9.82 9.82 0 0 0 12.04 2Zm0 18.14h-.01a8.24 8.24 0 0 1-4.19-1.15l-.3-.18-3.12.82.83-3.04-.2-.31a8.2 8.2 0 0 1-1.26-4.38c0-4.54 3.7-8.24 8.25-8.24 2.2 0 4.27.86 5.83 2.42a8.19 8.19 0 0 1 2.41 5.83c0 4.54-3.7 8.24-8.24 8.24Zm4.52-6.17c-.25-.12-1.47-.72-1.69-.81-.23-.08-.39-.12-.56.13-.16.25-.64.81-.79.97-.14.17-.29.19-.54.06-.25-.12-1.05-.39-1.99-1.23-.74-.66-1.23-1.47-1.38-1.72-.14-.25-.02-.38.11-.51.11-.11.25-.29.37-.43.13-.14.17-.25.25-.41.08-.17.04-.31-.02-.43-.06-.12-.56-1.34-.76-1.84-.2-.48-.4-.42-.56-.43-.14-.01-.31-.01-.48-.01a.92.92 0 0 0-.66.31c-.23.25-.87.85-.87 2.07 0 1.22.89 2.4 1.01 2.56.12.17 1.75 2.67 4.23 3.74.59.26 1.05.41 1.41.52.59.19 1.13.16 1.56.1.48-.07 1.47-.6 1.68-1.18.21-.58.21-1.07.14-1.18-.06-.11-.22-.17-.47-.29Z"
+                />
+              </svg>
+              +62 856-9634-3551
+            </a>
+            <p style="margin-top: 0.6rem; font-size: 0.85rem">
+              Dibalas tiap hari · 08.00–21.00 WITA
+            </p>
+          </div>
+          <div>
+            <h3>Jelajah</h3>
+            <ul>
+              <li><a href="#proses">Proses Tradisional</a></li>
+              <li><a href="#katalog">Katalog Produk</a></li>
+              <li><a href="#untuk">Buat Siapa</a></li>
+              <li><a href="#cara-pesan">Cara Pesan</a></li>
+            </ul>
+          </div>
+        </div>
+        <div class="footer__bar">
+          <span
+            >© <span id="year">2026</span> Mancoco. Dibuat dengan bangga di
+            Majene.</span
+          >
+          <span>Harga dapat berubah · Ongkir dihitung via WhatsApp</span>
+        </div>
+      </div>
+    </footer>
+
+    <!-- ══════════ FLOATING WHATSAPP ══════════ -->
+    <a
+      class="wa-float"
+      href="https://wa.me/6285696343551?text=Halo%20Mancoco%2C%20saya%20mau%20tanya-tanya%20dulu.%20%5Bvia%20web%5D"
+      target="_blank"
+      rel="noopener"
+      aria-label="Chat Mancoco via WhatsApp"
+    >
+      <svg
+        class="ic"
+        viewBox="0 0 24 24"
+        fill="currentColor"
+        aria-hidden="true"
+      >
+        <path
+          d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.45 1.32 4.95L2 22l5.25-1.38a9.9 9.9 0 0 0 4.79 1.22h.01c5.46 0 9.91-4.45 9.91-9.91 0-2.65-1.03-5.14-2.9-7.01A9.82 9.82 0 0 0 12.04 2Zm0 18.14h-.01a8.24 8.24 0 0 1-4.19-1.15l-.3-.18-3.12.82.83-3.04-.2-.31a8.2 8.2 0 0 1-1.26-4.38c0-4.54 3.7-8.24 8.25-8.24 2.2 0 4.27.86 5.83 2.42a8.19 8.19 0 0 1 2.41 5.83c0 4.54-3.7 8.24-8.24 8.24Zm4.52-6.17c-.25-.12-1.47-.72-1.69-.81-.23-.08-.39-.12-.56.13-.16.25-.64.81-.79.97-.14.17-.29.19-.54.06-.25-.12-1.05-.39-1.99-1.23-.74-.66-1.23-1.47-1.38-1.72-.14-.25-.02-.38.11-.51.11-.11.25-.29.37-.43.13-.14.17-.25.25-.41.08-.17.04-.31-.02-.43-.06-.12-.56-1.34-.76-1.84-.2-.48-.4-.42-.56-.43-.14-.01-.31-.01-.48-.01a.92.92 0 0 0-.66.31c-.23.25-.87.85-.87 2.07 0 1.22.89 2.4 1.01 2.56.12.17 1.75 2.67 4.23 3.74.59.26 1.05.41 1.41.52.59.19 1.13.16 1.56.1.48-.07 1.47-.6 1.68-1.18.21-.58.21-1.07.14-1.18-.06-.11-.22-.17-.47-.29Z"
+        />
+      </svg>
+    </a>
+
+    <script>
+      (function () {
+        "use strict";
+        /* Tahun otomatis */
+        document.getElementById("year").textContent = new Date().getFullYear();
+
+        /* Bayangan header saat scroll */
+        var header = document.getElementById("header");
+        var onScroll = function () {
+          header.classList.toggle("scrolled", window.scrollY > 8);
+        };
+        window.addEventListener("scroll", onScroll, { passive: true });
+        onScroll();
+
+        /* Menu seluler */
+        var btn = document.querySelector(".menu-btn");
+        var panel = document.getElementById("mobilePanel");
+        function setMenu(open) {
+          btn.setAttribute("aria-expanded", String(open));
+          btn.setAttribute(
+            "aria-label",
+            open ? "Tutup menu navigasi" : "Buka menu navigasi",
+          );
+          panel.hidden = !open;
+        }
+        btn.addEventListener("click", function () {
+          setMenu(btn.getAttribute("aria-expanded") !== "true");
+        });
+        panel.addEventListener("click", function (e) {
+          if (e.target.closest("a")) setMenu(false);
+        });
+        document.addEventListener("keydown", function (e) {
+          if (
+            e.key === "Escape" &&
+            btn.getAttribute("aria-expanded") === "true"
+          ) {
+            setMenu(false);
+            btn.focus();
+          }
+        });
+
+        /* Reveal saat discroll (hormat pada prefers-reduced-motion via CSS) */
+        if ("IntersectionObserver" in window) {
+          var io = new IntersectionObserver(
+            function (entries) {
+              entries.forEach(function (en) {
+                if (en.isIntersecting) {
+                  en.target.classList.add("is-in");
+                  io.unobserve(en.target);
+                }
+              });
+            },
+            { threshold: 0.15, rootMargin: "0px 0px -40px 0px" },
+          );
+          document.querySelectorAll(".reveal").forEach(function (el) {
+            io.observe(el);
+          });
+        } else {
+          document.querySelectorAll(".reveal").forEach(function (el) {
+            el.classList.add("is-in");
+          });
+        }
+      })();
+    </script>
+  </body>
+</html>

@@ -1,0 +1,22 @@
+# Aset mentah / belum terpakai di landing page (Fase 1)
+# Halaman saat ini hanya memakai:
+#   logo/logo-transparant.png, logo/logo-mancoco-transparan.png, proses/jpg/proses.jpg
+# Selebihnya diabaikan agar repo tetap ramping.
+
+logo/*
+!logo/logo-transparant.png
+!logo/logo-mancoco-transparan.png
+
+produk/
+
+proses/*
+!proses/jpg/
+proses/jpg/*
+!proses/jpg/proses.jpg
+
+# Tooling & OS
+.claude/
+.agents/
+.DS_Store
+Thumbs.db
+node_modules/
