@@ -10,15 +10,15 @@ Landing page untuk **Mancoco** — minyak kelapa tradisional (non-RBD) buatan pe
 
 Proyek ada di **dua fase**:
 
-- **Fase 1 (aktif):** `mancoco-landing.html` — single-file build. Seluruh CSS dan JS inline, **tanpa dependensi eksternal** dan tanpa build step. Buka langsung di browser untuk pratinjau. Ini satu-satunya artefak yang dikirim saat ini.
-- **Fase 2 (belum mulai):** port ke Next.js/React + Tailwind. `tailwind.config.js` sudah disiapkan sebagai jembatan — design token-nya dipetakan **1:1** dari blok `:root` di `mancoco-landing.html`. Belum ada `package.json`, jadi Tailwind belum bisa dijalankan sampai project Next.js dibuat.
+- **Fase 1 (aktif):** `index.html` — single-file build. Seluruh CSS dan JS inline, **tanpa dependensi eksternal** dan tanpa build step. Buka langsung di browser untuk pratinjau. Ini satu-satunya artefak yang dikirim saat ini. (Dulu bernama `mancoco-landing.html`, di-rename jadi `index.html` untuk hosting statis.)
+- **Fase 2 (belum mulai):** port ke Next.js/React + Tailwind. `tailwind.config.js` sudah disiapkan sebagai jembatan — design token-nya dipetakan **1:1** dari blok `:root` di `index.html`. Belum ada `package.json`, jadi Tailwind belum bisa dijalankan sampai project Next.js dibuat.
 
 Aset gambar: `logo/`, `produk/`, `proses/` (dengan `proses/jpg/` versi JPG). Ilustrasi produk di halaman saat ini adalah **SVG inline**, bukan file dari folder-folder ini.
 
 ## Sumber kebenaran design token
 
 Palet warna, font, shadow, radius, dan tekstur ada di **dua tempat yang harus selalu sinkron**:
-1. Blok `:root` (CSS custom properties) di `mancoco-landing.html`.
+1. Blok `:root` (CSS custom properties) di `index.html`.
 2. `theme.extend` di `tailwind.config.js`.
 
 Kalau mengubah token di satu tempat, ubah juga di tempat lain. HTML pakai `var(--nama)`; config Tailwind pakai nama key yang setara (mis. `--bg-main` ↔ `bg-main`, `--ink` ↔ `text-main`, `--wa` ↔ `whatsapp`).

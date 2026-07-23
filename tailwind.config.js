@@ -2,7 +2,7 @@
  *
  * MANCOCO — Tailwind config ( Fase 2: port Next.js / React )
  * ----------------------------------------------------------
- * Token ini dipetakan 1:1 dari single-file build `mancoco-landing.html`.
+ * Token ini dipetakan 1:1 dari single-file build `index.html`.
  * Tinggal drop ke project Next.js + Tailwind, lalu port section per section.
  *
  * Aturan palet dari PRD:
